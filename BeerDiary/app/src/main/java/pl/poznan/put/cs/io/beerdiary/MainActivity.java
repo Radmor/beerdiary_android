@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
                 // Create URL
                 URL targetURL = null;
                 try {
-                    targetURL = new URL("http://rest-service.guides.spring.io/greeting");
+                    targetURL = new URL("http://164.132.101.153:8000/api/pubs/");
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 }
@@ -62,7 +62,8 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     if(myConnection == null)
                         throw new IOException();
-                    myConnection.setRequestProperty("User-Agent", "my-rest-app-v0.1");
+                    myConnection.setRequestProperty("User-Agent", "beerdiary");
+                    myConnection.setRequestProperty("Token", "f2e4442fd010cb15f53e32277a09f480ec7b58c2");
 
                     if(myConnection.getResponseCode() == 200) {
                         InputStream responseBody = myConnection.getInputStream();
@@ -71,29 +72,32 @@ public class MainActivity extends AppCompatActivity {
 
 
                         jsonReader = new JsonReader(responseBodyReader);
-                        jsonReader.beginObject(); // Start processing the JSON object
-                        while (jsonReader.hasNext()) { // Loop through all keys
-                            String key = jsonReader.nextName(); // Fetch the next key
-                            if (key.equals("content")) { // Check if desired key
-                                // Fetch the value as a String
-                                final String value = jsonReader.nextString();
 
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        TextView testLabel = (TextView) findViewById(R.id.TestLabel);
-                                        testLabel.setText(value);
-                                    }
-                                });
+                        jsonReader.beginArray();
+                        while (jsonReader.hasNext()) {
+                            jsonReader.beginObject(); // Start processing the JSON object
+                            while (jsonReader.hasNext()) { // Loop through all keys
+                                String key = jsonReader.nextName(); // Fetch the next key
+                                if (key.equals("name")) { // Check if desired key
+                                    // Fetch the value as a String
+                                    final String value = jsonReader.nextString();
 
-                                // Do something with the value
-                                // ...
-
-                                break; // Break out of the loop
-                            } else {
-                                jsonReader.skipValue(); // Skip values of other keys
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            TextView testLabel = (TextView) findViewById(R.id.TestLabel);
+                                            testLabel.setText(value);
+                                        }
+                                    });
+                                } else {
+                                    jsonReader.skipValue(); // Skip values of other keys
+                                }
                             }
+                            jsonReader.endObject();
                         }
+                        jsonReader.endArray();
+
+
                     }
                     else {
 
