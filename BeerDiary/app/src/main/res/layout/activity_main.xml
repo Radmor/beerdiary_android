@@ -11,8 +11,8 @@
 
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="368dp"
+        android:layout_height="495dp"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp">
 
@@ -37,7 +37,7 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="368dp"
-            android:layout_height="276dp"
+            android:layout_height="300dp"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:baselineAligned="false"
@@ -52,7 +52,7 @@
                 android:layout_margin="20dp"
                 android:background="@color/colorPrimary"
                 android:onClick="beerButtonOnClick"
-                android:text="Piwa"
+                android:text="@string/beers"
                 android:textColor="@android:color/white" />
 
             <Button
@@ -61,7 +61,8 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:background="@color/colorPrimary"
-                android:text="Puby"
+                android:onClick="pubButtonOnClick"
+                android:text="@string/pubs"
                 android:textColor="@android:color/white" />
 
             <Button
@@ -70,7 +71,15 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:background="@color/colorPrimary"
-                android:text="Wydarzenia"
+                android:text="@string/events"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/TestLabel"
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center_horizontal"
+                android:text=""
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
