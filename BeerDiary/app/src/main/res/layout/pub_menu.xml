@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/darker_gray"
+    tools:context="pl.poznan.put.cs.io.beerdiary.MainActivity"
+    tools:layout_editor_absoluteX="0dp"
+    tools:layout_editor_absoluteY="81dp">
+
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="8dp"
+        tools:layout_editor_absoluteY="8dp">
+
+        <ExpandableListView
+            android:id="@+id/lvExp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/addButton"
+            android:layout_alignParentTop="true"
+            android:layout_margin="20dp"
+            android:divider="#00000000"
+            android:childDivider="@color/colorPrimaryBright"
+            android:dividerHeight="10dp"/>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/addButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:baselineAlignBottom="false"
+            android:src="@drawable/ic_add_white_24dp"
+            app:backgroundTint="@color/colorPrimary"
+            app:borderWidth="2dp"
+            app:fabSize="normal"
+            tools:layout_editor_absoluteX="175dp"
+            tools:layout_editor_absoluteY="439dp">
+
+        </android.support.design.widget.FloatingActionButton>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
