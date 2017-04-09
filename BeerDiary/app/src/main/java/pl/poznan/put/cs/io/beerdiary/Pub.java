@@ -1,9 +1,9 @@
 package pl.poznan.put.cs.io.beerdiary;
 
 /**
- * Klasa przechowująca dane o pojedynczym pubie.
- * Przygotowana na podstawie UML z poprzedniego semestru, zgodna ze specyfikacją JSONa podawanego przez serwer.
- * design oraz atmosphere przyjmują tylko wartości z zakresu 0.0-1.0, co jest sprawdzane ze strony serwera.
+ * Klasa przechowujaca dane o pojedynczym pubie.
+ * Przygotowana na podstawie UML z poprzedniego semestru, zgodna ze specyfikacja JSONa podawanego przez serwer.
+ * design oraz atmosphere przyjmuja tylko wartosci z zakresu 0.0-1.0, co jest sprawdzane ze strony serwera.
  */
 
 public class Pub {
@@ -24,7 +24,7 @@ public class Pub {
      * @param name                      nazwa pubu
      * @param street                    adres pubu
      * @param city                      miasto pubu
-     * @param overall                   ogólna ocena pubu w skali 1-5
+     * @param overall                   ogolna ocena pubu w skali 1-5
      * @param design                    ocena wystroju pubu
      * @param designDescription         opis wystroju pubu
      * @param atmosphere                ocena atmosfery pubu
@@ -42,14 +42,14 @@ public class Pub {
     }
 
     /**
-     * @return  zwraca nazwę pubu
+     * @return  zwraca nazwe pubu
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @param value ustawia nazwę pubu
+     * @param value ustawia nazwe pubu
      */
     public void setName(String value) {
         name = value;
@@ -84,28 +84,28 @@ public class Pub {
     }
 
     /**
-     * @return  zwraca ocenę ogólną
+     * @return  zwraca ocene ogólną
      */
     public Rating getOverall() {
         return overall;
     }
 
     /**
-     * @param value ustawia ocenę ogólną
+     * @param value ustawia ocene ogólną
      */
     public void setOverall(Rating value) {
         overall = value;
     }
 
     /**
-     * @return  zwraca ocenę wystroju
+     * @return  zwraca ocene wystroju
      */
     public float getDesign() {
         return design;
     }
 
     /**
-     * @param value ustawia ocenę wystroju
+     * @param value ustawia ocene wystroju
      */
     public void setDesign(float value) {
         design = value;
@@ -126,14 +126,14 @@ public class Pub {
     }
 
     /**
-     * @return  zwraca ocenę atmosfery
+     * @return  zwraca ocene atmosfery
      */
     public float getAtmosphere() {
         return atmosphere;
     }
 
     /**
-     * @param value ustawia atmosferę oceny
+     * @param value ustawia ocene atmosfery
      */
     public void setAtmosphere(float value) {
         atmosphere = value;

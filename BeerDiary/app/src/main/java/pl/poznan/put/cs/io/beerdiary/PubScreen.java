@@ -26,6 +26,10 @@ import android.widget.ExpandableListView.OnGroupCollapseListener;
 import android.widget.ExpandableListView.OnGroupExpandListener;
 import android.widget.Toast;
 
+/**
+ * Klasa obslugujaca pobranie listy pubow z serwera oraz wyswietlenie ich.
+ */
+
 public class PubScreen extends AppCompatActivity {
 
     ExpandableListAdapter listAdapter;
@@ -37,10 +41,10 @@ public class PubScreen extends AppCompatActivity {
     String pubsURL = "http://164.132.101.153:8000/api/pubs/";
 
     /**
-     * Metoda odczytująca listę pubów w JSON i zwracająca odpowiadającą jej listę.
-     * @param reader    JsonReader z listą
-     * @return          Lista obiektów klasy Pub
-     * @throws IOException  Wyjątek klasy JsonReader
+     * Metoda odczytujaca listę pubow w JSON i zwracajaca odpowiadajaca jej liste.
+     * @param reader    JsonReader z lista
+     * @return          Lista obiektow klasy Pub
+     * @throws IOException  Wyjatek klasy JsonReader
      */
     private List<Pub> readPubArray(JsonReader reader) throws IOException {
         List<Pub> pubs  = new ArrayList<Pub>();
@@ -55,10 +59,10 @@ public class PubScreen extends AppCompatActivity {
     }
 
     /**
-     * Metoda odczytująca pojedynczy pub w JSON i zwracająca odpowiadający mu obiekt.
+     * Metoda odczytujaca pojedynczy pub w JSON i zwracajaca odpowiadajacy mu obiekt.
      * @param reader    JsonReader z obiektem pubu
      * @return          Obiekt klasy Pub
-     * @throws IOException  Wyjątek klasy JsonReader
+     * @throws IOException  Wyjatek klasy JsonReader
      */
     private Pub readPub(JsonReader reader) throws IOException{
         String pubName = "";
@@ -108,7 +112,13 @@ public class PubScreen extends AppCompatActivity {
         return new Pub(pubName, street, city, overall, design, designDescription, atmosphere, atmosphereDescription);
     }
 
+    /**
+     * Podklasa odpowiadajaca za asynchroniczne pobranie danych pubow z serwera i wyswietlenie ich po pobraniu.
+     */
     private class GetPubsTask extends AsyncTask<Void, Void, Void> {
+        /**
+         * Przeladowana metoda wywolywana przed asynchronicznym przetwarzaniem; przygotowuje obiekty do pobrania i wyswietlenia.
+         */
         @Override
         protected void onPreExecute() {
             // get the listview
@@ -117,6 +127,12 @@ public class PubScreen extends AppCompatActivity {
             listDataHeader = new ArrayList<String>();
             listDataChild = new HashMap<String, List<String>>();
         }
+
+        /**
+         * Przeladowana metoda faktycznie pobierajaca dane z serwera, a nastepnie przetwarzajaca JSONa do obiektow klasy Pub.
+         * @param arg0  sztuczny argument, potrzebny do przeladowania odpowiedniej metody z nadklasy
+         * @return      sztyczna wartosc null, jak wyzej
+         */
         @Override
         protected Void doInBackground(Void... arg0) {// Create URL
             URL targetURL = null;
@@ -182,6 +198,10 @@ public class PubScreen extends AppCompatActivity {
             return null;
         }
 
+        /**
+         * Przeladowana metoda wyswietlajaca pobrane i przetworzone dane.
+         * @param result    sztuczny argument, potrzebny do przeladowania odpowiedniej metody z nadklasy
+         */
         @Override
         protected void onPostExecute(Void result) {
 
@@ -192,6 +212,10 @@ public class PubScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * Przeladowana metoda odpowiadajaca za zaladowanie ekranu wyswietlania pubow
+     * @param savedInstanceState    stan instancji
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -201,8 +225,10 @@ public class PubScreen extends AppCompatActivity {
         new GetPubsTask().execute();
     }
 
-    /*
-     * Preparing the list data
+    /**
+     * Metoda przetwarzajaca sciagniety JSON na liste obiektow klasy PUB, a nastepnie przygotowujaca je do wyswietlenia.
+     * @param reader
+     * @throws IOException
      */
     private void prepareListData(JsonReader reader) throws IOException {
         List<Pub> pubList = readPubArray(reader);
@@ -221,6 +247,9 @@ public class PubScreen extends AppCompatActivity {
         }
     }
 
+    /**
+     * Przeladowana metoda zmieniajaca domyslna, brzydka animacje.
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();
