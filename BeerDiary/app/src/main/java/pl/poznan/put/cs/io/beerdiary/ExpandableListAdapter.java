@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -93,7 +94,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             lblListHeader.setTypeface(null, Typeface.BOLD);
             lblListHeader.setText(headerTitle);
 
-            final Button lblListEdit = (Button) convertView.findViewById(R.id.lblListEdit);
+            final ImageButton lblListEdit = (ImageButton) convertView.findViewById(R.id.lblListEdit);
+            lblListEdit.setFocusable(false);
 
             lblListEdit.setOnClickListener(new View.OnClickListener() {
 
@@ -104,7 +106,9 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
             });
 
-            final Button lblListRemove = (Button) convertView.findViewById(R.id.lblListRemove);
+            final ImageButton lblListRemove = (ImageButton) convertView.findViewById(R.id.lblListRemove);
+
+            lblListRemove.setFocusable(false);
 
             lblListRemove.setOnClickListener(new View.OnClickListener() {
 
