@@ -46,19 +46,17 @@ public class PubScreen extends AppCompatActivity {
         listDataChild = new HashMap<String, List<String>>();
 
         // Adding child data
-        listDataHeader.add("Top 250");
+        listDataHeader.add("Dom Piwa");
         listDataHeader.add("Now Showing");
         listDataHeader.add("Coming Soon..");
 
         // Adding child data
-        List<String> top250 = new ArrayList<String>();
-        top250.add("The Shawshank Redemption");
-        top250.add("The Godfather");
-        top250.add("The Godfather: Part II");
-        top250.add("Pulp Fiction");
-        top250.add("The Good, the Bad and the Ugly");
-        top250.add("The Dark Knight");
-        top250.add("12 Angry Men");
+        List<String> domPiwa = new ArrayList<String>();
+        domPiwa.add("Miasto:         Poznań");
+        domPiwa.add("Ulica:          Mokra 2");
+        domPiwa.add("Ocena:          5");
+        domPiwa.add("Wystrój:        6.9/10");
+        domPiwa.add("Atmosfera:      7.5/10");
 
         List<String> nowShowing = new ArrayList<String>();
         nowShowing.add("The Conjuring");
@@ -75,7 +73,7 @@ public class PubScreen extends AppCompatActivity {
         comingSoon.add("The Canyons");
         comingSoon.add("Europa Report");
 
-        listDataChild.put(listDataHeader.get(0), top250); // Header, Child data
+        listDataChild.put(listDataHeader.get(0), domPiwa); // Header, Child data
         listDataChild.put(listDataHeader.get(1), nowShowing);
         listDataChild.put(listDataHeader.get(2), comingSoon);
     }
