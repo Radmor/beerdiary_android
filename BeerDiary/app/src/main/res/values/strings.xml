@@ -3,4 +3,6 @@
     <string name="beers">Piwa</string>
     <string name="pubs">Puby</string>
     <string name="events">Wydarzenia</string>
+    <string name="edit">ed</string>
+    <string name="remove">rm</string>
 </resources>

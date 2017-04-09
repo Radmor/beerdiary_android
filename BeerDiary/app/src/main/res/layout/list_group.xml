@@ -3,15 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    android:orientation="vertical"
     android:padding="20dp">
 
 
     <TextView
         android:id="@+id/lblListHeader"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:layout_weight="0.6"/>
+
+    <Button
+        android:id="@+id/lblListEdit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/edit"
+        android:visibility="visible"
+        android:focusable="false"
+        android:layout_weight="0.8"/>
+
+    <Button
+        android:id="@+id/lblListRemove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/remove"
+        android:visibility="visible"
+        android:focusable="false"
+        android:layout_weight="0.8"/>
 
 </LinearLayout>
+

@@ -3,12 +3,15 @@ package pl.poznan.put.cs.io.beerdiary;
 import java.util.HashMap;
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
@@ -84,13 +87,50 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater infalInflater = (LayoutInflater) this._context
                     .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = infalInflater.inflate(R.layout.list_group, null);
+
+            final TextView lblListHeader = (TextView) convertView
+                    .findViewById(R.id.lblListHeader);
+            lblListHeader.setTypeface(null, Typeface.BOLD);
+            lblListHeader.setText(headerTitle);
+
+            final Button lblListEdit = (Button) convertView.findViewById(R.id.lblListEdit);
+
+            lblListEdit.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    //obsługa edycji -> otwórz okno edycji -> przycisk "okej" -> usuń i dodaj nowy do bazy lub edytuj
+                }
+
+            });
+
+            final Button lblListRemove = (Button) convertView.findViewById(R.id.lblListRemove);
+
+            lblListRemove.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which){
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    //obsługa usuwania
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    break;
+                            }
+                        }
+                    };
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(_context);
+                    builder.setMessage("Czy na pewno chcesz usunąć pub "+lblListHeader.getText()+"?").setPositiveButton("Tak", dialogClickListener)
+                            .setNegativeButton("Nie", dialogClickListener).show();
+                }
+
+            });
         }
-
-        TextView lblListHeader = (TextView) convertView
-                .findViewById(R.id.lblListHeader);
-        lblListHeader.setTypeface(null, Typeface.BOLD);
-        lblListHeader.setText(headerTitle);
-
         return convertView;
     }
 
