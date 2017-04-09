@@ -41,7 +41,7 @@ public class PubScreen extends AppCompatActivity {
     HashMap<String, List<String>> listDataChild;
 
     android.content.Context context;
-    String pubsURL = "http://164.132.101.153:8000/api/pubs";
+    String pubsURL = "http://164.132.101.153:8000/api/pubs/";
 
     /**
      * Metoda odczytujaca listę pubow w JSON i zwracajaca odpowiadajaca jej liste.
@@ -68,6 +68,7 @@ public class PubScreen extends AppCompatActivity {
      * @throws IOException  Wyjatek klasy JsonReader
      */
     private Pub readPub(JsonReader reader) throws IOException{
+        int id = -1;
         String pubName = "";
         String street = "";
         String city = "";
@@ -80,7 +81,10 @@ public class PubScreen extends AppCompatActivity {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("name")) {
+            if (name.equals("id")) {
+                id = reader.nextInt();
+
+            } else if (name.equals("name")) {
                 pubName = reader.nextString();
 
             } else if (name.equals("street")) {
@@ -111,7 +115,7 @@ public class PubScreen extends AppCompatActivity {
         }
         reader.endObject();
 
-        return new Pub(pubName, street, city, overall, design, designDescription, atmosphere, atmosphereDescription);
+        return new Pub(id, pubName, street, city, overall, design, designDescription, atmosphere, atmosphereDescription);
     }
 
     /**

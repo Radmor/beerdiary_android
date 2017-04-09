@@ -7,6 +7,7 @@ package pl.poznan.put.cs.io.beerdiary;
  */
 
 public class Pub {
+    private int id;
     private String name;
     private String street;
     private String city;
@@ -30,7 +31,8 @@ public class Pub {
      * @param atmosphere                ocena atmosfery pubu
      * @param atmosphereDescription     opis atmosfery pubu
      */
-    public Pub(String name, String street, String city, Rating overall, float design, String designDescription, float atmosphere, String atmosphereDescription) {
+    public Pub(int id, String name, String street, String city, Rating overall, float design, String designDescription, float atmosphere, String atmosphereDescription) {
+        this.id = id;
         this.name = name;
         this.street = street;
         this.city = city;
@@ -153,4 +155,17 @@ public class Pub {
         atmosphereDescription = value;
     }
 
+    /**
+     * @return  zwraca id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
+     * @param id    ustawia id
+     */
+    public void setId(int id) {
+        this.id = id;
+    }
 }
