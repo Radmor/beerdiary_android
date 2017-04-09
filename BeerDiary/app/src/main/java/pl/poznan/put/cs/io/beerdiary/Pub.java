@@ -155,8 +155,7 @@ public class Pub {
         atmosphereDescription = value;
     }
 
-    /**
-     * @return  zwraca id
+    /** @return  zwraca id
      */
     public int getId() {
         return id;
@@ -167,5 +166,27 @@ public class Pub {
      */
     public void setId(int id) {
         this.id = id;
+    }
+  
+   /*** metoda aktualizująca dane o pubie
+     * @param name                      nazwa pubu
+     * @param street                    adres pubu
+     * @param city                      miasto pubu
+     * @param overall                   ogolna ocena pubu w skali 1-5
+     * @param design                    ocena wystroju pubu
+     * @param designDescription         opis wystroju pubu
+     * @param atmosphere                ocena atmosfery pubu
+     * @param atmosphereDescription     opis atmosfery pubu
+     */
+
+    public void update(String name, String street, String city, Rating overall, float design, String designDescription, float atmosphere, String atmosphereDescription) {
+        this.name = name;
+        this.street = street;
+        this.city = city;
+        this.overall = overall;
+        this.design = design;
+        this.designDescription = designDescription;
+        this.atmosphere = atmosphere;
+        this.atmosphereDescription = atmosphereDescription;
     }
 }
