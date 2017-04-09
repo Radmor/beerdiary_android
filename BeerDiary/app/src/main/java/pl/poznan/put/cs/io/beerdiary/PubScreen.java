@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ResourceBundle;
+
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
@@ -18,6 +20,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
+import android.util.JsonToken;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
@@ -38,7 +41,7 @@ public class PubScreen extends AppCompatActivity {
     HashMap<String, List<String>> listDataChild;
 
     android.content.Context context;
-    String pubsURL = "http://164.132.101.153:8000/api/pubs/";
+    String pubsURL = "http://164.132.101.153:8000/api/pubs";
 
     /**
      * Metoda odczytujaca listę pubow w JSON i zwracajaca odpowiadajaca jej liste.
@@ -77,34 +80,33 @@ public class PubScreen extends AppCompatActivity {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            switch (name) {
-                case "name":
-                    pubName = reader.nextString();
-                    break;
-                case "street":
-                    street = reader.nextString();
-                    break;
-                case "city":
-                    city = reader.nextString();
-                    break;
-                case "overall":
-                    overall = Rating.values()[reader.nextInt() - 1];
-                    break;
-                case "design":
-                    design = (float) reader.nextDouble();
-                    break;
-                case "design_description":
-                    designDescription = reader.nextString();
-                    break;
-                case "atmosphere":
-                    atmosphere = (float) reader.nextDouble();
-                    break;
-                case "atmosphere_description":
-                    atmosphereDescription = reader.nextString();
-                    break;
-                default:
-                    reader.skipValue();
-                    break;
+            if (name.equals("name")) {
+                pubName = reader.nextString();
+
+            } else if (name.equals("street")) {
+                street = reader.nextString();
+
+            } else if (name.equals("city")) {
+                city = reader.nextString();
+
+            } else if (name.equals("overall")) {
+                overall = Rating.values()[reader.nextInt() - 1];
+
+            } else if (name.equals("design") && reader.peek() != JsonToken.NULL) {
+                design = (float) reader.nextDouble();
+
+            } else if (name.equals("design_description")) {
+                designDescription = reader.nextString();
+
+            } else if (name.equals("atmosphere") && reader.peek() != JsonToken.NULL) {
+                atmosphere = (float) reader.nextDouble();
+
+            } else if (name.equals("atmosphere_description")) {
+                atmosphereDescription = reader.nextString();
+
+            } else {
+                reader.skipValue();
+
             }
         }
         reader.endObject();
@@ -172,22 +174,23 @@ public class PubScreen extends AppCompatActivity {
                     prepareListData(jsonReader);
                 }
                 else {
-                    String ResponseCode = String.valueOf(response);
+                    final String ResponseCode = String.valueOf(response);
 
-                    AlertDialog.Builder builder1 = new AlertDialog.Builder(context);
-                    builder1.setMessage("WProblem z połączeniem. Protokół http zwrócił kod " + ResponseCode);
-                    builder1.setCancelable(true);
-
-                    builder1.setPositiveButton(
-                            "O nie!",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int id) {
-                                    dialog.cancel();
-                                }
-                            });
-
-                    AlertDialog alert11 = builder1.create();
-                    alert11.show();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog alertDialog = new AlertDialog.Builder(PubScreen.this).create();
+                            alertDialog.setTitle("Alert");
+                            alertDialog.setMessage("Error code from server: " + ResponseCode);
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+                        }
+                    });
                 }
 
                 myConnection.disconnect();
