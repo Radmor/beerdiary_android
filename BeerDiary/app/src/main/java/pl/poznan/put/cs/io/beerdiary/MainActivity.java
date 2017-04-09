@@ -1,5 +1,6 @@
 package pl.poznan.put.cs.io.beerdiary;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.JsonReader;
@@ -35,6 +36,13 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.PubButton).setVisibility(View.VISIBLE);
     }
 
+    public void pubButtonOnClick(View v) {
+        Intent intent = new Intent(MainActivity.this, PubScreen.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    /*
     public void pubButtonOnClick(View v) {
 
         // Create a new thread to connect to the given URL
@@ -119,5 +127,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+    */
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 }
