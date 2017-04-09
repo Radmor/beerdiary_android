@@ -24,6 +24,12 @@ public class PubScreen extends AppCompatActivity {
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
 
+    /**
+     * Metoda odczytująca listę pubów w JSON i zwracająca odpowiadającą jej listę.
+     * @param reader    JsonReader z listą
+     * @return          Lista obiektów klasy Pub
+     * @throws IOException  Wyjątek klasy JsonReader
+     */
     private List<Pub> readPubArray(JsonReader reader) throws IOException {
         List<Pub> pubs  = new ArrayList<Pub>();
 
@@ -36,6 +42,12 @@ public class PubScreen extends AppCompatActivity {
         return pubs;
     }
 
+    /**
+     * Metoda odczytująca pojedynczy pub w JSON i zwracająca odpowiadający mu obiekt.
+     * @param reader    JsonReader z obiektem pubu
+     * @return          Obiekt klasy Pub
+     * @throws IOException  Wyjątek klasy JsonReader
+     */
     private Pub readPub(JsonReader reader) throws IOException{
         String pubName = "";
         String street = "";
@@ -107,8 +119,6 @@ public class PubScreen extends AppCompatActivity {
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
-
-        
 
         // Adding child data
         listDataHeader.add("Dom Piwa");
