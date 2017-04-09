@@ -81,7 +81,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     }
 
     @Override
-    public View getGroupView(int groupPosition, boolean isExpanded,
+    public View getGroupView(final int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
         String headerTitle = (String) getGroup(groupPosition);
         if (convertView == null) {
@@ -120,6 +120,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
                                     //obsługa usuwania
+                                    PubScreen pubScreen = (PubScreen)_context;
+                                    pubScreen.DeletePubByGroupId(groupPosition);
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:

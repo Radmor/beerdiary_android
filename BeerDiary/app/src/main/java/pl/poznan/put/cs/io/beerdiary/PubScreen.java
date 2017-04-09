@@ -41,7 +41,13 @@ public class PubScreen extends AppCompatActivity {
     HashMap<String, List<String>> listDataChild;
 
     android.content.Context context;
-    String pubsURL = "http://164.132.101.153:8000/api/pubs";
+    String pubsURL = "http://164.132.101.153:8000/api/pubs/";
+    private List<Pub> pubs;
+
+    public void DeletePubByGroupId(int groupId) {
+        Pub pubToDelete = pubs.get(groupId);
+        new DeletePubAndRefreshTask().execute(pubToDelete);
+    }
 
     /**
      * Metoda odczytujaca listę pubow w JSON i zwracajaca odpowiadajaca jej liste.
@@ -68,6 +74,7 @@ public class PubScreen extends AppCompatActivity {
      * @throws IOException  Wyjatek klasy JsonReader
      */
     private Pub readPub(JsonReader reader) throws IOException{
+        int id = -1;
         String pubName = "";
         String street = "";
         String city = "";
@@ -80,7 +87,10 @@ public class PubScreen extends AppCompatActivity {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-            if (name.equals("name")) {
+            if (name.equals("id")) {
+                id = reader.nextInt();
+
+            } else if (name.equals("name")) {
                 pubName = reader.nextString();
 
             } else if (name.equals("street")) {
@@ -111,7 +121,7 @@ public class PubScreen extends AppCompatActivity {
         }
         reader.endObject();
 
-        return new Pub(pubName, street, city, overall, design, designDescription, atmosphere, atmosphereDescription);
+        return new Pub(id, pubName, street, city, overall, design, designDescription, atmosphere, atmosphereDescription);
     }
 
     /**
@@ -159,6 +169,7 @@ public class PubScreen extends AppCompatActivity {
                     throw new IOException();
                 myConnection.setRequestProperty("User-Agent", "beerdiary");
                 myConnection.setRequestProperty("Token", "f2e4442fd010cb15f53e32277a09f480ec7b58c2");
+                myConnection.connect();
 
                 int response = myConnection.getResponseCode();
 
@@ -214,6 +225,97 @@ public class PubScreen extends AppCompatActivity {
             expListView.setAdapter(listAdapter);
         }
     }
+    /**
+     * Podklasa odpowiadajaca za asynchroniczne usuniecia danych jednego z pubow z serwera oraz odwiezenie widoku.
+     */
+    private class DeletePubAndRefreshTask extends AsyncTask<Pub, Void, Void> {
+        /**
+         * Przeladowana metoda wywolywana przed asynchronicznym przetwarzaniem; przygotowuje obiekty do pobrania i wyswietlenia.
+         */
+//        @Override
+//        protected void onPreExecute() {
+//            // get the listview
+//            expListView = (ExpandableListView) findViewById(R.id.lvExp);
+//
+//            listDataHeader = new ArrayList<String>();
+//            listDataChild = new HashMap<String, List<String>>();
+//        }
+
+        /**
+         * Przeladowana metoda faktycznie wysylajaca zadanie usuniecia do serwera
+         * @param pub   obiekt klasy Pub do usuniecia
+         * @return      sztuczna wartosc null, jak wyzej
+         */
+        @Override
+        protected Void doInBackground(Pub... pub) {// Create URL
+            final int idToDelete = pub[0].getId();
+            final String targetURLString = pubsURL + String.valueOf(idToDelete) + "/";
+
+            URL targetURL = null;
+            try {
+                targetURL = new URL(targetURLString);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+
+            // Create connection
+            HttpURLConnection myConnection = null;
+            try {
+                if (targetURL == null)
+                    throw new IOException();
+                myConnection = (HttpURLConnection) targetURL.openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                if(myConnection == null)
+                    throw new IOException();
+                myConnection.setDoOutput(true);
+                myConnection.setRequestProperty("User-Agent", "beerdiary");
+                myConnection.setRequestProperty("Authorization", "Token b97dcb9174dcbf567bb7fb7b523124755d0a14ea");
+                myConnection.setRequestMethod("DELETE");
+                myConnection.connect();
+
+                int response = myConnection.getResponseCode();
+
+                if(response != 204) {
+                    final String ResponseCode = String.valueOf(response);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            AlertDialog alertDialog = new AlertDialog.Builder(PubScreen.this).create();
+                            alertDialog.setTitle("Alert");
+                            alertDialog.setMessage("Error code from server: " + ResponseCode);
+                            alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                    new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    });
+                            alertDialog.show();
+                        }
+                    });
+                }
+
+                myConnection.disconnect();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        /**
+         * Przeladowana metoda wyswietlajaca pobrane i przetworzone dane.
+         * @param result    sztuczny argument, potrzebny do przeladowania odpowiedniej metody z nadklasy
+         */
+        @Override
+        protected void onPostExecute(Void result) {
+            new GetPubsTask().execute();
+        }
+    }
 
     /**
      * Przeladowana metoda odpowiadajaca za zaladowanie ekranu wyswietlania pubow
@@ -235,6 +337,7 @@ public class PubScreen extends AppCompatActivity {
      */
     private void prepareListData(JsonReader reader) throws IOException {
         List<Pub> pubList = readPubArray(reader);
+        pubs = pubList;
 
         for (int i = 0; i < pubList.size(); i++) {
             listDataHeader.add(pubList.get(i).getName());
