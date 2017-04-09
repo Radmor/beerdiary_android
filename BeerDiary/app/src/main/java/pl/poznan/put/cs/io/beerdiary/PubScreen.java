@@ -1,11 +1,14 @@
 package pl.poznan.put.cs.io.beerdiary;
 
+import java.io.IOError;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.JsonReader;
 import android.view.View;
 import android.widget.ExpandableListView;
 import android.widget.ExpandableListView.OnChildClickListener;
@@ -20,6 +23,66 @@ public class PubScreen extends AppCompatActivity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+
+    private List<Pub> readPubArray(JsonReader reader) throws IOException {
+        List<Pub> pubs  = new ArrayList<Pub>();
+
+        reader.beginArray();
+        while (reader.hasNext()) {
+            pubs.add(readPub(reader));
+        }
+        reader.endArray();
+
+        return pubs;
+    }
+
+    private Pub readPub(JsonReader reader) throws IOException{
+        String pubName = "";
+        String street = "";
+        String city = "";
+        Rating rating = Rating._1;
+        float design = 0.0f;
+        String designDescription = "";
+        float atmosphere = 0.0f;
+        String atmosphereDescription = "";
+
+        reader.beginObject();
+        while (reader.hasNext()) {
+            String name = reader.nextName();
+            switch (name) {
+                case "name":
+                    pubName = reader.nextString();
+                    break;
+                case "street":
+                    street = reader.nextString();
+                    break;
+                case "city":
+                    city = reader.nextString();
+                    break;
+                case "rating":
+                    rating = Rating.values()[reader.nextInt() - 1];
+                    break;
+                case "design":
+                    design = (float) reader.nextDouble();
+                    break;
+                case "design_description":
+                    designDescription = reader.nextString();
+                    break;
+                case "atmosphere":
+                    atmosphere = (float) reader.nextDouble();
+                    break;
+                case "atmosphere_description":
+                    atmosphereDescription = reader.nextString();
+                    break;
+                default:
+                    reader.skipValue();
+                    break;
+            }
+        }
+        reader.endObject();
+
+        return new Pub(pubName, street, city, rating, design, designDescription, atmosphere, atmosphereDescription);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +107,8 @@ public class PubScreen extends AppCompatActivity {
     private void prepareListData() {
         listDataHeader = new ArrayList<String>();
         listDataChild = new HashMap<String, List<String>>();
+
+        
 
         // Adding child data
         listDataHeader.add("Dom Piwa");
