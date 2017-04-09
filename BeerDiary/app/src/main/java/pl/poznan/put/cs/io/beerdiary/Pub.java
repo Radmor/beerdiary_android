@@ -7,161 +7,147 @@ package pl.poznan.put.cs.io.beerdiary;
  */
 
 public class Pub {
+    private String name;
+    private String street;
+    private String city;
+    private Rating overall;
+    private float design;
+    private String designDescription;
+    private float atmosphere;
+    private String atmosphereDescription;
 
-    /**
-     * Default constructor
-     */
-    public Pub() {
+    private Pub() {
     }
 
     /**
-     *
+     * Default constructor
+     * @param name                      nazwa pubu
+     * @param street                    adres pubu
+     * @param city                      miasto pubu
+     * @param overall                   ogólna ocena pubu w skali 1-5
+     * @param design                    ocena wystroju pubu
+     * @param designDescription         opis wystroju pubu
+     * @param atmosphere                ocena atmosfery pubu
+     * @param atmosphereDescription     opis atmosfery pubu
      */
-    protected String name;
+    public Pub(String name, String street, String city, Rating overall, float design, String designDescription, float atmosphere, String atmosphereDescription) {
+        this.name = name;
+        this.street = street;
+        this.city = city;
+        this.overall = overall;
+        this.design = design;
+        this.designDescription = designDescription;
+        this.atmosphere = atmosphere;
+        this.atmosphereDescription = atmosphereDescription;
+    }
 
     /**
-     *
-     */
-    protected String street;
-
-    /**
-     *
-     */
-    protected String city;
-
-    /**
-     *
-     */
-    protected Rating overall;
-
-    /**
-     *
-     */
-    protected float design;
-
-    /**
-     *
-     */
-    protected String designDescription;
-
-    /**
-     *
-     */
-    protected float atmosphere;
-
-    /**
-     *
-     */
-    protected String atmosphereDescription;
-
-
-    /**
-     * @return
+     * @return  zwraca nazwę pubu
      */
     public String getName() {
         return name;
     }
 
     /**
-     * @param value
+     * @param value ustawia nazwę pubu
      */
     public void setName(String value) {
         name = value;
     }
 
     /**
-     * @return
+     * @return  zwraca adres pubu
      */
     public String getStreet() {
         return street;
     }
 
     /**
-     * @param value
+     * @param value ustawia adres pubu
      */
     public void setStreet(String value) {
         street = value;
     }
 
     /**
-     * @return
+     * @return  zwraca miasto
      */
     public String getCity() {
         return city;
 }
 
     /**
-     * @param value
+     * @param value ustawia miasto
      */
     public void setCity(String value) {
         city = value;
     }
 
     /**
-     * @return
+     * @return  zwraca ocenę ogólną
      */
     public Rating getOverall() {
         return overall;
     }
 
     /**
-     * @param value
+     * @param value ustawia ocenę ogólną
      */
     public void setOverall(Rating value) {
         overall = value;
     }
 
     /**
-     * @return
+     * @return  zwraca ocenę wystroju
      */
     public float getDesign() {
         return design;
     }
 
     /**
-     * @param value
+     * @param value ustawia ocenę wystroju
      */
     public void setDesign(float value) {
         design = value;
     }
 
     /**
-     * @return
+     * @return  zwraca opis wystroju
      */
     public String getDesignDescription() {
         return designDescription;
     }
 
     /**
-     * @param value
+     * @param value ustawia opis wystroju
      */
     public void setDesignDescription(String value) {
         designDescription = value;
     }
 
     /**
-     * @return
+     * @return  zwraca ocenę atmosfery
      */
     public float getAtmosphere() {
         return atmosphere;
     }
 
     /**
-     * @param value
+     * @param value ustawia atmosferę oceny
      */
     public void setAtmosphere(float value) {
         atmosphere = value;
     }
 
     /**
-     * @return
+     * @return  zwraca opis oceny
      */
     public String getAtmosphereDescription() {
         return atmosphereDescription;
     }
 
     /**
-     * @param value
+     * @param value ustawia opis oceny
      */
     public void setAtmosphereDescription(String value) {
         atmosphereDescription = value;
