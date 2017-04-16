@@ -168,7 +168,7 @@ public class PubScreen extends AppCompatActivity {
                 if(myConnection == null)
                     throw new IOException();
                 myConnection.setRequestProperty("User-Agent", "beerdiary");
-                myConnection.setRequestProperty("Token", "f2e4442fd010cb15f53e32277a09f480ec7b58c2");
+                myConnection.setRequestProperty("Authorization", "Token b97dcb9174dcbf567bb7fb7b523124755d0a14ea");
                 myConnection.connect();
 
                 int response = myConnection.getResponseCode();
