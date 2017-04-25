@@ -1,12 +1,14 @@
 package pl.poznan.put.cs.io.beerdiary;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.JsonReader;
 import android.util.JsonToken;
+import android.view.View;
 import android.widget.ExpandableListView;
 
 import java.io.IOException;
@@ -33,6 +35,12 @@ public class BreweryScreen extends AppCompatActivity {
     android.content.Context context;
     String breweriesURL = "http://164.132.101.153:8000/api/breweries/";
     private List<Brewery> breweries;
+
+    public void addButtonOnClick(View v) {
+        Intent intent = new Intent(BreweryScreen.this, ModifyBreweryScreen.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
 
     public void DeleteBreweryByGroupId(int groupId) {
         Brewery breweryToDelete = breweries.get(groupId);
@@ -294,7 +302,7 @@ public class BreweryScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pub_menu); //TODO - zmienic layout na menu
+        setContentView(R.layout.brewery_menu);
 
         context = this;
         new GetBreweriesTask().execute();
