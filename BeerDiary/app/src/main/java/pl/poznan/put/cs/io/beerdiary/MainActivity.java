@@ -36,6 +36,12 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.PubButton).setVisibility(View.VISIBLE);
     }
 
+    public void breweryButtonOnClick(View v) {
+        Intent intent = new Intent(MainActivity.this, BreweryScreen.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
     public void pubButtonOnClick(View v) {
         Intent intent = new Intent(MainActivity.this, PubScreen.class);
         startActivity(intent);

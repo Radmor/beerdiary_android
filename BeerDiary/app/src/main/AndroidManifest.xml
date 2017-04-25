@@ -19,6 +19,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".PubScreen"/>
+        <activity android:name=".BreweryScreen"/>
     </application>
 
 </manifest>
