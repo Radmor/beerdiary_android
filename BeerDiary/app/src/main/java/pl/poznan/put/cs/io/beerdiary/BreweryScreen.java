@@ -303,7 +303,7 @@ public class BreweryScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.brewery_menu);
-
+        getSupportActionBar().setTitle("Browary");
         context = this;
         new GetBreweriesTask().execute();
     }

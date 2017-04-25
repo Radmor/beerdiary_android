@@ -325,7 +325,7 @@ public class PubScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.pub_menu);
-
+        getSupportActionBar().setTitle("Puby");
         context = this;
         new GetPubsTask().execute();
     }

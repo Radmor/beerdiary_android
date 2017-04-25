@@ -14,6 +14,7 @@ public class ModifyBreweryScreen extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setTitle("Browary");
         setContentView(R.layout.modify_brewery);
 
     }
