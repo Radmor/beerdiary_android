@@ -15,6 +15,7 @@ import java.util.ResourceBundle;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -43,6 +44,12 @@ public class PubScreen extends AppCompatActivity {
     android.content.Context context;
     String pubsURL = "http://164.132.101.153:8000/api/pubs/";
     private List<Pub> pubs;
+
+    public void addButtonOnClick(View v) {
+        Intent intent = new Intent(PubScreen.this, ModifyPubScreen.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
 
     public void DeletePubByGroupId(int groupId) {
         Pub pubToDelete = pubs.get(groupId);
