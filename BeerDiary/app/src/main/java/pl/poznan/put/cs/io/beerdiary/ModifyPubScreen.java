@@ -27,9 +27,9 @@ public class ModifyPubScreen extends AppCompatActivity {
     String pubsURL = "http://164.132.101.153:8000/api/pubs/";
 
     // robie dzis tylko dodawanie; docelowo ten ekran powinien wiedziec, czy dodajemy, czy edytujemy, i dodatkowo pamietac indeks edytowanego pubu.
-    private boolean newPub = true;
+    boolean addingPub = true;
     // TODO add PUT method and keep pub id in the class
-    private int pubId = -1;
+    int pubId = -1;
 
     EditText NameText;
     EditText StreetText;
@@ -53,6 +53,9 @@ public class ModifyPubScreen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         getSupportActionBar().setTitle("Puby");
         setContentView(R.layout.modify_pub);
+
+        OverallRating  = (RatingBar)findViewById(R.id.ratingBar);
+        OverallRating.setRating(3);
     }
 
     private class SendPubTask extends AsyncTask<Pub, Void, Void> {
@@ -169,7 +172,7 @@ public class ModifyPubScreen extends AppCompatActivity {
         OverallInt     = (int)OverallRating.getRating();
         Overall        = Rating.values()[Math.max(OverallInt-1, 0)];
 
-        Pub newPub = new Pub(0, Name, Street, City, Overall, 0.0f, DesignDesc, 0.0f, AtmosphereDesc);
+        Pub newPub = new Pub(pubId, Name, Street, City, Overall, 0.0f, DesignDesc, 0.0f, AtmosphereDesc);
 
         new SendPubTask().execute(newPub);
 
