@@ -29,6 +29,7 @@ public class ModifyPubScreen extends AppCompatActivity {
     // robie dzis tylko dodawanie; docelowo ten ekran powinien wiedziec, czy dodajemy, czy edytujemy, i dodatkowo pamietac indeks edytowanego pubu.
     boolean addingPub = true;
     // TODO add PUT method and keep pub id in the class
+    Pub myPub;
     int pubId = -1;
 
     EditText NameText;
@@ -54,8 +55,22 @@ public class ModifyPubScreen extends AppCompatActivity {
         getSupportActionBar().setTitle("Puby");
         setContentView(R.layout.modify_pub);
 
+        NameText       = (EditText)findViewById(R.id.editTextName);
+        StreetText     = (EditText)findViewById(R.id.editTextStreet);
+        CityText       = (EditText)findViewById(R.id.editTextCity);
+        DesignText     = (EditText)findViewById(R.id.editTextDesignDesc);
+        AtmosphereText = (EditText)findViewById(R.id.editTextAtmosphereDesc);
         OverallRating  = (RatingBar)findViewById(R.id.ratingBar);
-        OverallRating.setRating(3);
+
+        myPub = (Pub)getIntent().getSerializableExtra("Pub");
+        pubId = myPub.getId();
+
+        NameText.setText(myPub.getName());
+        StreetText.setText(myPub.getStreet());
+        CityText.setText(myPub.getCity());
+        DesignText.setText(myPub.getDesignDescription());
+        AtmosphereText.setText(myPub.getAtmosphereDescription());
+        OverallRating.setRating(myPub.getOverall().ordinal()+1);
     }
 
     private class SendPubTask extends AsyncTask<Pub, Void, Void> {
@@ -72,7 +87,12 @@ public class ModifyPubScreen extends AppCompatActivity {
         protected Void doInBackground(Pub... pub) {
             // Create URL
             final int idToDelete = pub[0].getId();
-            final String targetURLString = pubsURL;
+            String targetURLnotFinal;
+            if (pubId == -1)
+                targetURLnotFinal = pubsURL;
+            else
+                targetURLnotFinal = pubsURL + Integer.toString(pubId) + "/";
+            final String targetURLString = targetURLnotFinal;
 
             URL targetURL = null;
             try {
@@ -112,8 +132,14 @@ public class ModifyPubScreen extends AppCompatActivity {
                 myConnection.setRequestProperty("Content-Type", "application/json");
                 myConnection.setRequestProperty("Accept", "application/json");
                 myConnection.setDoOutput(true);
-                // TODO add a switch? to aither POST or PUT depending on adding/editing a pub
-                myConnection.setRequestMethod("POST");
+
+                String HTTPMethod;
+
+                if(pubId == -1)
+                    HTTPMethod = "POST";
+                else
+                    HTTPMethod = "PUT";
+                myConnection.setRequestMethod(HTTPMethod);
 
                 OutputStreamWriter JSONWriter = new OutputStreamWriter(myConnection.getOutputStream());
                 JSONWriter.write(pubJSON.toString());
@@ -123,8 +149,7 @@ public class ModifyPubScreen extends AppCompatActivity {
 
                 int response = myConnection.getResponseCode();
 
-                // 201 - only for POST! (chyba, do weryfikacji u Pietra)
-                if(response != 201) {
+                if(!((HTTPMethod == "POST" && response == 201) || ((HTTPMethod == "PUT" && response == 200)))) {
                     final String ResponseCode = String.valueOf(response);
 
                     runOnUiThread(new Runnable() {
@@ -157,13 +182,6 @@ public class ModifyPubScreen extends AppCompatActivity {
     }
 
     public void saveButtonOnClick(View v) {
-        NameText       = (EditText)findViewById(R.id.editTextName);
-        StreetText     = (EditText)findViewById(R.id.editTextStreet);
-        CityText       = (EditText)findViewById(R.id.editTextCity);
-        DesignText     = (EditText)findViewById(R.id.editTextDesignDesc);
-        AtmosphereText = (EditText)findViewById(R.id.editTextAtmosphereDesc);
-        OverallRating  = (RatingBar)findViewById(R.id.ratingBar);
-
         Name           = NameText.getText().toString();
         Street         = StreetText.getText().toString();
         City           = CityText.getText().toString();
@@ -176,6 +194,7 @@ public class ModifyPubScreen extends AppCompatActivity {
 
         new SendPubTask().execute(newPub);
 
+        // TODO Alert with HTTP error code doesn't show when switching activity
         this.onBackPressed();
     }
 

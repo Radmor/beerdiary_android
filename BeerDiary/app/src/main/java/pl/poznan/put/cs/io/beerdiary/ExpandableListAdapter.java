@@ -6,6 +6,7 @@ import java.util.List;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -101,7 +102,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    //obsługa edycji -> otwórz okno edycji -> przycisk "okej" -> usuń i dodaj nowy do bazy lub edytuj
+                    PubScreen pubScreen = (PubScreen)_context;
+                    pubScreen.editPub(v, groupPosition);
                 }
 
             });

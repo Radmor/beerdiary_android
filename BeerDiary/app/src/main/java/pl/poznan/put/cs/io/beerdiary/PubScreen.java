@@ -40,6 +40,7 @@ public class PubScreen extends AppCompatActivity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
+    Pub pubToModify;
 
     android.content.Context context;
     String pubsURL = "http://164.132.101.153:8000/api/pubs/";
@@ -47,6 +48,14 @@ public class PubScreen extends AppCompatActivity {
 
     public void addButtonOnClick(View v) {
         Intent intent = new Intent(PubScreen.this, ModifyPubScreen.class);
+        intent.putExtra("Pub", new Pub(-1, "", "", "", Rating._3, 0f, "", 0f, ""));
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    public void editPub(View v, int pubId) {
+        Intent intent = new Intent(PubScreen.this, ModifyPubScreen.class);
+        intent.putExtra("Pub", pubs.get(pubId));
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
@@ -358,6 +367,13 @@ public class PubScreen extends AppCompatActivity {
 
             listDataChild.put(listDataHeader.get(i), child); // Header, Child data
         }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        new GetPubsTask().execute();
     }
 
     /**
