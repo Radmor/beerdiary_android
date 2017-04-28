@@ -1,30 +1,30 @@
 package pl.poznan.put.cs.io.beerdiary;
 
-import java.util.HashMap;
-import java.util.List;
-
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-public class ExpandableListAdapter extends BaseExpandableListAdapter {
+import java.util.HashMap;
+import java.util.List;
+
+//TODO - refaktoryzacja - zmienić obsługe eventów podając typ screena do konstruktora
+
+public class ExpandableListAdapterBreweries extends BaseExpandableListAdapter {
 
     private Context _context;
     private List<String> _listDataHeader; // header titles
     // child data in format of header title, child title
     private HashMap<String, List<String>> _listDataChild;
 
-    public ExpandableListAdapter(Context context, List<String> listDataHeader,
-                                 HashMap<String, List<String>> listChildData) {
+    public ExpandableListAdapterBreweries(Context context, List<String> listDataHeader,
+                                          HashMap<String, List<String>> listChildData) {
         this._context = context;
         this._listDataHeader = listDataHeader;
         this._listDataChild = listChildData;
@@ -102,8 +102,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    PubScreen pubScreen = (PubScreen)_context;
-                    pubScreen.editPub(v, groupPosition);
+                    //obsługa edycji -> otwórz okno edycji -> przycisk "okej" -> usuń i dodaj nowy do bazy lub edytuj
                 }
 
             });
@@ -122,8 +121,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
                                     //obsługa usuwania
-                                    PubScreen pubScreen = (PubScreen)_context;
-                                    pubScreen.DeletePubByGroupId(groupPosition);
+                                    BreweryScreen breweryScreen = (BreweryScreen)_context;
+                                    breweryScreen.DeleteBreweryByGroupId(groupPosition);
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:

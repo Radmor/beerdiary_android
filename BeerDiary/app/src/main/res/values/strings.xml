@@ -3,6 +3,16 @@
     <string name="beers">Piwa</string>
     <string name="pubs">Puby</string>
     <string name="events">Wydarzenia</string>
+    <string name="breweries">Browary</string>
     <string name="edit">ed</string>
     <string name="remove">rm</string>
+    <string name="name">Nazwa</string>
+    <string name="street">Ulica</string>
+    <string name="city">Miasto</string>
+    <string name="overall">Ocena</string>
+    <string name="design">Design</string>
+    <string name="design_desc">Opis designu</string>
+    <string name="atmosphere">Atmosfera</string>
+    <string name="atmosphere_desc">Opis atmosfery</string>
+    <string name="save">Zapisz</string>
 </resources>
