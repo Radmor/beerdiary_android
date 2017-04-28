@@ -1,12 +1,14 @@
 package pl.poznan.put.cs.io.beerdiary;
 
+import java.io.Serializable;
+
 /**
  * Klasa przechowujaca dane o pojedynczym browarze.
  * Przygotowana na podstawie UML z poprzedniego semestru, zgodna ze specyfikacja JSONa podawanego przez serwer.
  * design oraz atmosphere przyjmuja tylko wartosci z zakresu 0.0-1.0, co jest sprawdzane ze strony serwera.
  */
 
-public class Brewery {
+public class Brewery implements Serializable {
     private int id;
     private String name;
     private Rating overall;

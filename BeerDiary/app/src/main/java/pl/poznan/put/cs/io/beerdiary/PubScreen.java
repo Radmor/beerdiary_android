@@ -40,7 +40,6 @@ public class PubScreen extends AppCompatActivity {
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
-    Pub pubToModify;
 
     android.content.Context context;
     String pubsURL = "http://164.132.101.153:8000/api/pubs/";
@@ -105,7 +104,6 @@ public class PubScreen extends AppCompatActivity {
             String name = reader.nextName();
             if (name.equals("id")) {
                 id = reader.nextInt();
-
             } else if (name.equals("name")) {
                 pubName = reader.nextString();
 
@@ -343,7 +341,6 @@ public class PubScreen extends AppCompatActivity {
         setContentView(R.layout.pub_menu);
         getSupportActionBar().setTitle("Puby");
         context = this;
-        new GetPubsTask().execute();
     }
 
     /**
