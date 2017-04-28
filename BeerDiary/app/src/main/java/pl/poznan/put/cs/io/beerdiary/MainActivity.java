@@ -29,11 +29,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void beerButtonOnClick(View v) {
-        findViewById(R.id.PubButton).setVisibility(View.INVISIBLE);
+
     }
 
-    public void addButtonOnClick(View v) {
-        findViewById(R.id.PubButton).setVisibility(View.VISIBLE);
+    public void breweryButtonOnClick(View v) {
+        Intent intent = new Intent(MainActivity.this, BreweryScreen.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
     public void pubButtonOnClick(View v) {
