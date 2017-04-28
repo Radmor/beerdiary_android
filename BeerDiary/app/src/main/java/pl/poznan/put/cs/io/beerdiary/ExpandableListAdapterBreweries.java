@@ -102,7 +102,8 @@ public class ExpandableListAdapterBreweries extends BaseExpandableListAdapter {
 
                 @Override
                 public void onClick(View v) {
-                    //obsługa edycji -> otwórz okno edycji -> przycisk "okej" -> usuń i dodaj nowy do bazy lub edytuj
+                    BreweryScreen breweryScreen = (BreweryScreen)_context;
+                    breweryScreen.editBrewery(v, groupPosition);
                 }
 
             });

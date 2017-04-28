@@ -38,6 +38,14 @@ public class BreweryScreen extends AppCompatActivity {
 
     public void addButtonOnClick(View v) {
         Intent intent = new Intent(BreweryScreen.this, ModifyBreweryScreen.class);
+        intent.putExtra("Brewery", new Brewery(-1, "", Rating._3, ""));
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    public void editBrewery(View v, int breweryId) {
+        Intent intent = new Intent(BreweryScreen.this, ModifyBreweryScreen.class);
+        intent.putExtra("Brewery", breweries.get(breweryId));
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
@@ -305,7 +313,6 @@ public class BreweryScreen extends AppCompatActivity {
         setContentView(R.layout.brewery_menu);
         getSupportActionBar().setTitle("Browary");
         context = this;
-        new GetBreweriesTask().execute();
     }
 
     /**
@@ -327,6 +334,13 @@ public class BreweryScreen extends AppCompatActivity {
 
             listDataChild.put(listDataHeader.get(i), child); // Header, Child data
         }
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        new GetBreweriesTask().execute();
     }
 
     /**
