@@ -22,6 +22,7 @@
         <activity android:name=".ModifyPubScreen"/>
         <activity android:name=".BreweryScreen"/>
         <activity android:name=".ModifyBreweryScreen"/>
+        <activity android:name=".StyleScreen"/>
     </application>
 
 </manifest>
