@@ -33,7 +33,7 @@ public class StyleScreen extends AppCompatActivity {
     HashMap<String, List<String>> listDataChild;
 
     android.content.Context context;
-    String pubsURL = "http://164.132.101.153:8000/api/styles/";
+    String stylesURL = "http://164.132.101.153:8000/api/styles/";
     private List<Style> styles;
 
 //    public void addButtonOnClick(View v) {
@@ -49,11 +49,11 @@ public class StyleScreen extends AppCompatActivity {
 //        startActivity(intent);
 //        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
 //    }
-//
-//    public void DeletePubByGroupId(int groupId) {
-//        Pub pubToDelete = pubs.get(groupId);
-//        new DeletePubAndRefreshTask().execute(pubToDelete);
-//    }
+
+    public void DeleteStyleByGroupId(int groupId) {
+        Style styleToDelete = styles.get(groupId);
+        new DeleteStyleAndRefreshTask().execute(styleToDelete);
+    }
 
     /**
      * Metoda odczytujaca listę batunkow w JSON i zwracajaca odpowiadajaca jej liste.
@@ -86,9 +86,9 @@ public class StyleScreen extends AppCompatActivity {
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
-//            if (name.equals("id")) {
-//                id = reader.nextInt();
-/*            } else */ if (name.equals("name")) {
+            if (name.equals("id")) {
+                id = reader.nextInt();
+            } else if (name.equals("name")) {
                 styleName = reader.nextString();
 
             }  else {
@@ -125,7 +125,7 @@ public class StyleScreen extends AppCompatActivity {
         protected Void doInBackground(Void... arg0) {// Create URL
             URL targetURL = null;
             try {
-                targetURL = new URL(pubsURL);
+                targetURL = new URL(stylesURL);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -204,10 +204,10 @@ public class StyleScreen extends AppCompatActivity {
     /**
      * Podklasa odpowiadajaca za asynchroniczne usuniecia danych jednego z pubow z serwera oraz odwiezenie widoku.
      */
-    private class DeletePubAndRefreshTask extends AsyncTask<Pub, Void, Void> {
-        /**
-         * Przeladowana metoda wywolywana przed asynchronicznym przetwarzaniem; przygotowuje obiekty do pobrania i wyswietlenia.
-         */
+    private class DeleteStyleAndRefreshTask extends AsyncTask<Style, Void, Void> {
+//        /**
+//         * Przeladowana metoda wywolywana przed asynchronicznym przetwarzaniem; przygotowuje obiekty do pobrania i wyswietlenia.
+//         */
 //        @Override
 //        protected void onPreExecute() {
 //            // get the listview
@@ -219,13 +219,13 @@ public class StyleScreen extends AppCompatActivity {
 
         /**
          * Przeladowana metoda faktycznie wysylajaca zadanie usuniecia do serwera
-         * @param pub   obiekt klasy Pub do usuniecia
+         * @param style obiekt klasy Pub do usuniecia
          * @return      sztuczna wartosc null, jak wyzej
          */
         @Override
-        protected Void doInBackground(Pub... pub) {// Create URL
-            final int idToDelete = pub[0].getId();
-            final String targetURLString = pubsURL + String.valueOf(idToDelete) + "/";
+        protected Void doInBackground(Style... style) {// Create URL
+            final int idToDelete = style[0].getId();
+            final String targetURLString = stylesURL + String.valueOf(idToDelete) + "/";
 
             URL targetURL = null;
             try {

@@ -123,8 +123,8 @@ public class ExpandableListAdapterStyles extends BaseExpandableListAdapter {
                             switch (which){
                                 case DialogInterface.BUTTON_POSITIVE:
                                     // obsługa usuwania
-//                                    BreweryScreen breweryScreen = (BreweryScreen)_context;
-//                                    breweryScreen.DeleteBreweryByGroupId(groupPosition);
+                                    StyleScreen styleScreen = (StyleScreen) _context;
+                                    styleScreen.DeleteStyleByGroupId(groupPosition);
                                     break;
 
                                 case DialogInterface.BUTTON_NEGATIVE:
