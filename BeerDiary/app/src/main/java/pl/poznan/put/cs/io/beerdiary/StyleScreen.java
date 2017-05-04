@@ -36,19 +36,19 @@ public class StyleScreen extends AppCompatActivity {
     String stylesURL = "http://164.132.101.153:8000/api/styles/";
     private List<Style> styles;
 
-//    public void addButtonOnClick(View v) {
-//        Intent intent = new Intent(StyleScreen.this, ModifyPubScreen.class);
-//        intent.putExtra("Pub", new Pub(-1, "", "", "", Rating._3, 0f, "", 0f, ""));
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-//    }
-//
-//    public void editPub(View v, int pubId) {
-//        Intent intent = new Intent(StyleScreen.this, ModifyPubScreen.class);
-//        intent.putExtra("Pub", pubs.get(pubId));
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
-//    }
+    public void addButtonOnClick(View v) {
+        Intent intent = new Intent(StyleScreen.this, ModifyStyleScreen.class);
+        intent.putExtra("Style", new Style(-1, ""));
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    public void editStyle(View v, int styleId) {
+        Intent intent = new Intent(StyleScreen.this, ModifyStyleScreen.class);
+        intent.putExtra("Style", styles.get(styleId));
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
 
     public void DeleteStyleByGroupId(int groupId) {
         Style styleToDelete = styles.get(groupId);
@@ -75,7 +75,7 @@ public class StyleScreen extends AppCompatActivity {
 
     /**
      * Metoda odczytujaca pojedynczy gatunek w JSON i zwracajaca odpowiadajacy mu obiekt.
-     * @param reader    JsonReader z obiektem pubu
+     * @param reader    JsonReader z obiektem gatunku
      * @return          Obiekt klasy Style
      * @throws IOException  Wyjatek klasy JsonReader
      */
@@ -202,7 +202,7 @@ public class StyleScreen extends AppCompatActivity {
         }
     }
     /**
-     * Podklasa odpowiadajaca za asynchroniczne usuniecia danych jednego z pubow z serwera oraz odwiezenie widoku.
+     * Podklasa odpowiadajaca za asynchroniczne usuniecia danych jednego z gatunkow z serwera oraz odwiezenie widoku.
      */
     private class DeleteStyleAndRefreshTask extends AsyncTask<Style, Void, Void> {
 //        /**
@@ -219,7 +219,7 @@ public class StyleScreen extends AppCompatActivity {
 
         /**
          * Przeladowana metoda faktycznie wysylajaca zadanie usuniecia do serwera
-         * @param style obiekt klasy Pub do usuniecia
+         * @param style obiekt klasy Style do usuniecia
          * @return      sztuczna wartosc null, jak wyzej
          */
         @Override
@@ -294,19 +294,19 @@ public class StyleScreen extends AppCompatActivity {
     }
 
     /**
-     * Przeladowana metoda odpowiadajaca za zaladowanie ekranu wyswietlania pubow
+     * Przeladowana metoda odpowiadajaca za zaladowanie ekranu wyswietlania gatunkowow
      * @param savedInstanceState    stan instancji
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pub_menu);
+        setContentView(R.layout.style_menu);
         getSupportActionBar().setTitle("Gatunki");
         context = this;
     }
 
     /**
-     * Metoda przetwarzajaca sciagniety JSON na liste obiektow klasy PUB, a nastepnie przygotowujaca je do wyswietlenia.
+     * Metoda przetwarzajaca sciagniety JSON na liste obiektow klasy Style, a nastepnie przygotowujaca je do wyswietlenia.
      * @param reader
      * @throws IOException
      */

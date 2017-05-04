@@ -2,7 +2,9 @@ package pl.poznan.put.cs.io.beerdiary;
 
 /* klasa przechowująca informacje o stylu piwa */
 
-public class Style {
+import java.io.Serializable;
+
+public class Style implements Serializable {
     private int id;
     private String name;
 

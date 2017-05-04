@@ -103,8 +103,8 @@ public class ExpandableListAdapterStyles extends BaseExpandableListAdapter {
                 @Override
                 public void onClick(View v) {
                     // obsługa edycji
-//                    StyleScreen styleScreen = (StyleScreen)_context;
-//                    StyleScreen.editStyle(v, groupPosition);
+                    StyleScreen styleScreen = (StyleScreen)_context;
+                    styleScreen.editStyle(v, groupPosition);
                 }
 
             });
