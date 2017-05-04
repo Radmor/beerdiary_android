@@ -314,6 +314,8 @@ public class StyleScreen extends AppCompatActivity {
         List<Style> styleList = readStyleArray(reader);
         styles = styleList;
 
+        expListView.setGroupIndicator(null);
+
         for (int i = 0; i < styleList.size(); i++) {
             listDataHeader.add(styleList.get(i).getName());
             List<String> child = new ArrayList<String>();
