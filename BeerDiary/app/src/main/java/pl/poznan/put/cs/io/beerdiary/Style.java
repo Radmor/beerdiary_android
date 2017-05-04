@@ -3,17 +3,22 @@ package pl.poznan.put.cs.io.beerdiary;
 /* klasa przechowująca informacje o stylu piwa */
 
 public class Style {
+    private int id;
     private String name;
 
     /** konstruktor domyślny
+     * @param id               id na serwerze
      * @param name             nazwa stylu
      */
-    public Style(String name){
+    public Style(int id, String name){
+        this.id = id;
         this.name = name;
     }
 
     public String getName() {return name;}
     public void setName(String value) {name = value;}
+
+    public int getId() { return id; }
 
     /** metoda aktualizująca informacje o stylu
      * @param name          nazwa stylu

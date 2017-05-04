@@ -44,6 +44,12 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    public void styleButtonOnClick(View v) {
+        Intent intent = new Intent(MainActivity.this, StyleScreen.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
     /*
     public void pubButtonOnClick(View v) {
 
