@@ -10,6 +10,7 @@ import android.util.JsonReader;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.SeekBar;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -38,6 +39,8 @@ public class ModifyPubScreen extends AppCompatActivity {
     EditText DesignText;
     EditText AtmosphereText;
     RatingBar OverallRating;
+    SeekBar DesignRating;
+    SeekBar AtmosphereRating;
 
     String Name;
     String Street;
@@ -46,6 +49,8 @@ public class ModifyPubScreen extends AppCompatActivity {
     String AtmosphereDesc;
     int OverallInt;
     Rating Overall;
+    float Design;
+    float Atmosphere;
 
     JSONObject pubJSON;
 
@@ -61,6 +66,8 @@ public class ModifyPubScreen extends AppCompatActivity {
         DesignText     = (EditText)findViewById(R.id.editTextDesignDesc);
         AtmosphereText = (EditText)findViewById(R.id.editTextAtmosphereDesc);
         OverallRating  = (RatingBar)findViewById(R.id.ratingBar);
+        DesignRating   = (SeekBar)findViewById(R.id.seekBarDesign);
+        AtmosphereRating   = (SeekBar)findViewById(R.id.seekBarAtmosphere);
 
         myPub = (Pub)getIntent().getSerializableExtra("Pub");
         pubId = myPub.getId();
@@ -71,6 +78,11 @@ public class ModifyPubScreen extends AppCompatActivity {
         DesignText.setText(myPub.getDesignDescription());
         AtmosphereText.setText(myPub.getAtmosphereDescription());
         OverallRating.setRating(myPub.getOverall().ordinal()+1);
+
+        DesignRating.setMax(100);
+        DesignRating.setProgress(Math.round(100 * myPub.getDesign()));
+        AtmosphereRating.setMax(100);
+        AtmosphereRating.setProgress(Math.round(100 * myPub.getAtmosphere()));
     }
 
     private class SendPubTask extends AsyncTask<Pub, Void, Void> {
@@ -118,9 +130,9 @@ public class ModifyPubScreen extends AppCompatActivity {
                 pubJSON.put("street", pub[0].getStreet());
                 pubJSON.put("city", pub[0].getCity());
                 pubJSON.put("overall", pub[0].getOverall().ordinal()+1);
-                pubJSON.put("design", 0.0f);
+                pubJSON.put("design", pub[0].getDesign());
                 pubJSON.put("design_description", pub[0].getDesignDescription());
-                pubJSON.put("atmosphere", 0.0f);
+                pubJSON.put("atmosphere", pub[0].getAtmosphere());
                 pubJSON.put("atmosphere_description", pub[0].getAtmosphereDescription());
             } catch (JSONException e) { }
 
@@ -189,8 +201,10 @@ public class ModifyPubScreen extends AppCompatActivity {
         AtmosphereDesc = AtmosphereText.getText().toString();
         OverallInt     = (int)OverallRating.getRating();
         Overall        = Rating.values()[Math.max(OverallInt-1, 0)];
+        Design         = ((float)DesignRating.getProgress() / 100);
+        Atmosphere     = ((float)AtmosphereRating.getProgress() / 100);
 
-        Pub newPub = new Pub(pubId, Name, Street, City, Overall, 0.0f, DesignDesc, 0.0f, AtmosphereDesc);
+        Pub newPub = new Pub(pubId, Name, Street, City, Overall, Design, DesignDesc, Atmosphere, AtmosphereDesc);
 
         new SendPubTask().execute(newPub);
 
