@@ -25,9 +25,9 @@ import java.util.List;
  * Klasa obslugujaca pobranie listy gatunkow z serwera oraz wyswietlenie ich.
  */
 
-public class StyleScreen extends AppCompatActivity {
+public class StyleScreen extends AppCompatActivity implements AbstractScreen{
 
-    ExpandableListAdapterStyles listAdapter;
+    ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -43,14 +43,14 @@ public class StyleScreen extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    public void editStyle(View v, int styleId) {
+    public void edit(View v, int styleId) {
         Intent intent = new Intent(StyleScreen.this, ModifyStyleScreen.class);
         intent.putExtra("Style", styles.get(styleId));
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    public void DeleteStyleByGroupId(int groupId) {
+    public void deleteByGroupId(int groupId) {
         Style styleToDelete = styles.get(groupId);
         new DeleteStyleAndRefreshTask().execute(styleToDelete);
     }
@@ -195,7 +195,7 @@ public class StyleScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
 
-            listAdapter = new ExpandableListAdapterStyles(context, listDataHeader, listDataChild);
+            listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild, StyleScreen.this);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
@@ -247,7 +247,7 @@ public class StyleScreen extends AppCompatActivity {
             try {
                 if(myConnection == null)
                     throw new IOException();
-                myConnection.setDoOutput(true);
+                //myConnection.setDoOutput(true);
                 myConnection.setRequestProperty("User-Agent", "beerdiary");
                 myConnection.setRequestProperty("Authorization", "Token b97dcb9174dcbf567bb7fb7b523124755d0a14ea");
                 myConnection.setRequestMethod("DELETE");

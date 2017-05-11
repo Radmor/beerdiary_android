@@ -34,7 +34,7 @@ import android.widget.Toast;
  * Klasa obslugujaca pobranie listy pubow z serwera oraz wyswietlenie ich.
  */
 
-public class PubScreen extends AppCompatActivity {
+public class PubScreen extends AppCompatActivity implements AbstractScreen {
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
@@ -52,14 +52,14 @@ public class PubScreen extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    public void editPub(View v, int pubId) {
+    public void edit(View v, int pubId) {
         Intent intent = new Intent(PubScreen.this, ModifyPubScreen.class);
         intent.putExtra("Pub", pubs.get(pubId));
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    public void DeletePubByGroupId(int groupId) {
+    public void deleteByGroupId(int groupId) {
         Pub pubToDelete = pubs.get(groupId);
         new DeletePubAndRefreshTask().execute(pubToDelete);
     }
@@ -233,7 +233,7 @@ public class PubScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
 
-            listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild);
+            listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild, PubScreen.this);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
@@ -285,7 +285,7 @@ public class PubScreen extends AppCompatActivity {
             try {
                 if(myConnection == null)
                     throw new IOException();
-                myConnection.setDoOutput(true);
+                //myConnection.setDoOutput(true);
                 myConnection.setRequestProperty("User-Agent", "beerdiary");
                 myConnection.setRequestProperty("Authorization", "Token b97dcb9174dcbf567bb7fb7b523124755d0a14ea");
                 myConnection.setRequestMethod("DELETE");

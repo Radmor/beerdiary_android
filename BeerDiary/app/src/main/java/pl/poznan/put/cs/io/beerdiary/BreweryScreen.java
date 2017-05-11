@@ -25,9 +25,9 @@ import java.util.List;
  * Klasa obslugujaca pobranie listy browarow z serwera oraz wyswietlenie ich.
  */
 
-public class BreweryScreen extends AppCompatActivity {
+public class BreweryScreen extends AppCompatActivity implements AbstractScreen {
 
-    ExpandableListAdapterBreweries listAdapter;
+    ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
     List<String> listDataHeader;
     HashMap<String, List<String>> listDataChild;
@@ -43,14 +43,14 @@ public class BreweryScreen extends AppCompatActivity {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    public void editBrewery(View v, int breweryId) {
+    public void edit(View v, int breweryId) {
         Intent intent = new Intent(BreweryScreen.this, ModifyBreweryScreen.class);
         intent.putExtra("Brewery", breweries.get(breweryId));
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    public void DeleteBreweryByGroupId(int groupId) {
+    public void deleteByGroupId(int groupId) {
         Brewery breweryToDelete = breweries.get(groupId);
         new DeleteBreweryAndRefreshTask().execute(breweryToDelete);
     }
@@ -205,7 +205,7 @@ public class BreweryScreen extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void result) {
 
-            listAdapter = new ExpandableListAdapterBreweries(context, listDataHeader, listDataChild);
+            listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild, BreweryScreen.this);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
@@ -257,7 +257,7 @@ public class BreweryScreen extends AppCompatActivity {
             try {
                 if(myConnection == null)
                     throw new IOException();
-                myConnection.setDoOutput(true);
+                //myConnection.setDoOutput(true);
                 myConnection.setRequestProperty("User-Agent", "beerdiary");
                 myConnection.setRequestProperty("Authorization", "Token b97dcb9174dcbf567bb7fb7b523124755d0a14ea");
                 myConnection.setRequestMethod("DELETE");
