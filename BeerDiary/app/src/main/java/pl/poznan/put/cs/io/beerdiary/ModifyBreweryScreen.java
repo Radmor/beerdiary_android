@@ -20,6 +20,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/** klasa ekranu modyfikowania danych browaru
+ */
+
 public class ModifyBreweryScreen extends AppCompatActivity {
 
     private String User_Agent = "beerdiary";
@@ -42,6 +45,9 @@ public class ModifyBreweryScreen extends AppCompatActivity {
 
     JSONObject breweryJSON;
 
+    /** metoda obsługująca stworzenie ekranu modyfikowania browaru
+     * @param savedInstanceState     zachowany stan instancji
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +66,8 @@ public class ModifyBreweryScreen extends AppCompatActivity {
         OverallRating.setRating(myBrewery.getOverall().ordinal()+1);
     }
 
+    /** klasa stanowiąca zadanie wysłania zmienionych danych browaru na serwer
+     */
     private class SendBreweryTask extends AsyncTask<Brewery, Void, Void> {
 //        @Override
 //        protected void onPreExecute() {
@@ -70,6 +78,9 @@ public class ModifyBreweryScreen extends AppCompatActivity {
 //            listDataChild = new HashMap<String, List<String>>();
 //        }
 
+        /** metoda faktycznie wysyłająca dane browaru na serwer (działa w tle)
+         * @param brewery           browar
+         */
         @Override
         protected Void doInBackground(Brewery... brewery) {
             // Create URL
@@ -163,6 +174,9 @@ public class ModifyBreweryScreen extends AppCompatActivity {
 //        protected void onPostExecute(Void result) { }
     }
 
+    /** metoda obsługująca naciśnięcie przycisku zapisania browaru
+     * @param v         widok
+     */
     public void saveButtonOnClick(View v) {
         Name           = NameText.getText().toString();
         Note           = NoteText.getText().toString();
@@ -177,7 +191,8 @@ public class ModifyBreweryScreen extends AppCompatActivity {
         this.onBackPressed();
     }
 
-
+    /** metoda obłsugująca zdarzenie naciśnięcia klawisza wstecz
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();

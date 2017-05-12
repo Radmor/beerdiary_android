@@ -24,6 +24,12 @@ public class ExpandableListAdapter<TypeOfScreen extends AbstractScreen> extends 
     private HashMap<String, List<String>> listDataChild;
     private TypeOfScreen screenObject;
 
+    /** konstruktor 
+     *  @param context          kontekst
+     *  @param listDataHeader   lista  nagłówków danych
+     *  @param listChildData    lista danych dzieci
+     *  @param screenObject     typ ekranu
+     */
     public ExpandableListAdapter (Context context, List<String> listDataHeader,
                                            HashMap<String, List<String>> listChildData, TypeOfScreen screenObject) {
         this.context = context;
@@ -32,17 +38,35 @@ public class ExpandableListAdapter<TypeOfScreen extends AbstractScreen> extends 
         this.screenObject = screenObject;
     }
 
+    /** metoda zwracająca dziecko
+     * @param groupPosition     pozycja grupy
+     * @param childPosition     pozycja dziecka
+     * @return                  dziecko
+     */
     @Override
-    public Object getChild(int groupPosition, int childPosititon) {
+    public Object getChild(int groupPosition, int childPosition) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))
-                .get(childPosititon);
+                .get(childPosition);
     }
 
+    /** metoda zwracająca id dziecka
+     * @param groupPosition     pozycja grupy
+     * @param childPosition     pozycja dziecka
+     * @return                  id dziecka              
+     */
     @Override
     public long getChildId(int groupPosition, int childPosition) {
         return childPosition;
     }
 
+    /** metoda zwracająca widok dziecka
+     * @param groupPosition     pozycja grupy
+     * @param childPosition     pozycja dziecka
+     * @param isLastChild       czy jest ostanim dzieckiem?
+     * @param convertView       konwertowany widok
+     * @param parent            grupa rodzica
+     * @return                  widok dziecka
+     */
     @Override
     public View getChildView(int groupPosition, final int childPosition,
                              boolean isLastChild, View convertView, ViewGroup parent) {
@@ -62,27 +86,49 @@ public class ExpandableListAdapter<TypeOfScreen extends AbstractScreen> extends 
         return convertView;
     }
 
+    /** metoda zwracająca liczbę dzieci
+     * @param groupPosition    pozycja grupy
+     * @return                 liczba dzieci
+     */
     @Override
     public int getChildrenCount(int groupPosition) {
         return this.listDataChild.get(this.listDataHeader.get(groupPosition))
                 .size();
     }
 
+    /** metoda zwracająca grupę
+     * @param groupPosition     pozycja grupy
+     * @return                  grupa
+     */
     @Override
     public Object getGroup(int groupPosition) {
         return this.listDataHeader.get(groupPosition);
     }
 
+    /** metoda zwracająca liczbę grup
+     * @return                  liczba grup
+     */
     @Override
     public int getGroupCount() {
         return this.listDataHeader.size();
     }
 
+    /** metoda zwracająca id grupy
+     * @param groupPosition     pozycja grupy
+     * @return                  id grupy
+     */
     @Override
     public long getGroupId(int groupPosition) {
         return groupPosition;
     }
 
+    /** metoda zwracająca widok grupy
+     * @param groupPosition     pozycja grupy
+     * @param isExpanded        czy jest rozwinięta?
+     * @param convertView       skonwertowany widok
+     * @param parent            grupa rodzica
+     * @return                  widok grupy
+     */
     @Override
     public View getGroupView(final int groupPosition, boolean isExpanded,
                              View convertView, ViewGroup parent) {
@@ -143,12 +189,20 @@ public class ExpandableListAdapter<TypeOfScreen extends AbstractScreen> extends 
         //}
         return convertView;
     }
-
+    
+    /** metoda mówiąca czy grupa ma stabilne id
+     * @return                  czy stabilne id?
+     */
     @Override
     public boolean hasStableIds() {
         return true;
     }
 
+    /** metoda mówiąca czy dziecko można wybierać
+     * @param groupPosition     pozycja grupy
+     * @param childPosition     pozycja dziecka
+     * @return                  czy dziecko można wybierać?
+     */
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {
         return true;

@@ -1,6 +1,6 @@
 package pl.poznan.put.cs.io.beerdiary;
 
-/* klasa przechowująca informacje o stylu piwa */
+/* klasa przechowująca informacje o gatunku piwa */
 
 import java.io.Serializable;
 
@@ -10,7 +10,7 @@ public class Style implements Serializable {
 
     /** konstruktor domyślny
      * @param id               id na serwerze
-     * @param name             nazwa stylu
+     * @param name             nazwa gatunku
      */
     public Style(int id, String name){
         this.id = id;
@@ -22,8 +22,8 @@ public class Style implements Serializable {
 
     public int getId() { return id; }
 
-    /** metoda aktualizująca informacje o stylu
-     * @param name          nazwa stylu
+    /** metoda aktualizująca informacje o gatunku
+     * @param name          nazwa gatunku
      */
     public void update(String name) {this.name = name;}
 }

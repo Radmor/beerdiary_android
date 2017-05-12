@@ -36,6 +36,9 @@ public class StyleScreen extends AppCompatActivity implements AbstractScreen{
     String stylesURL = "http://164.132.101.153:8000/api/styles/";
     private List<Style> styles;
 
+    /** metoda obsługująca przycisk dodawania gatunku
+     * @param v         widok
+     */
     public void addButtonOnClick(View v) {
         Intent intent = new Intent(StyleScreen.this, ModifyStyleScreen.class);
         intent.putExtra("Style", new Style(-1, ""));
@@ -43,6 +46,10 @@ public class StyleScreen extends AppCompatActivity implements AbstractScreen{
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    /** metoda obsługująca edycję gatunku
+     * @param v         widok
+     * @param styleId     id gatunku
+     */
     public void edit(View v, int styleId) {
         Intent intent = new Intent(StyleScreen.this, ModifyStyleScreen.class);
         intent.putExtra("Style", styles.get(styleId));
@@ -50,13 +57,16 @@ public class StyleScreen extends AppCompatActivity implements AbstractScreen{
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    /** metoda usuwająca gatunki według id grupy
+     * @param groupId           id grupy
+     */
     public void deleteByGroupId(int groupId) {
         Style styleToDelete = styles.get(groupId);
         new DeleteStyleAndRefreshTask().execute(styleToDelete);
     }
 
     /**
-     * Metoda odczytujaca listę batunkow w JSON i zwracajaca odpowiadajaca jej liste.
+     * Metoda odczytujaca listę gatunkow w JSON i zwracajaca odpowiadajaca jej liste.
      * @param reader    JsonReader z lista
      * @return          Lista obiektow klasy Style
      * @throws IOException  Wyjatek klasy JsonReader

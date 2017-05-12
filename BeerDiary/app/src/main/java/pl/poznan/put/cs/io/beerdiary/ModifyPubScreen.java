@@ -21,6 +21,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/** klasa ekranu modyfikowania danych pubu
+ */
+
 public class ModifyPubScreen extends AppCompatActivity {
 
     private String User_Agent = "beerdiary";
@@ -54,6 +57,9 @@ public class ModifyPubScreen extends AppCompatActivity {
 
     JSONObject pubJSON;
 
+    /** metoda obsługująca stworzenie ekranu modyfikowania pubu
+     * @param savedInstanceState     zachowany stan instancji
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +91,8 @@ public class ModifyPubScreen extends AppCompatActivity {
         AtmosphereRating.setProgress(Math.round(100 * myPub.getAtmosphere()));
     }
 
+    /** klasa stanowiąca zadanie wysłania zmienionych danych pubu na serwer
+     */
     private class SendPubTask extends AsyncTask<Pub, Void, Void> {
 //        @Override
 //        protected void onPreExecute() {
@@ -95,6 +103,9 @@ public class ModifyPubScreen extends AppCompatActivity {
 //            listDataChild = new HashMap<String, List<String>>();
 //        }
 
+        /** metoda faktycznie wysyłająca dane browaru na serwer (działa w tle)
+         * @param pub           pub
+         */
         @Override
         protected Void doInBackground(Pub... pub) {
             // Create URL
@@ -193,6 +204,9 @@ public class ModifyPubScreen extends AppCompatActivity {
 //        protected void onPostExecute(Void result) { }
     }
 
+    /** metoda obsługująca naciśnięcie przycisku zapisania pubu
+     * @param v         widok
+     */
     public void saveButtonOnClick(View v) {
         Name           = NameText.getText().toString();
         Street         = StreetText.getText().toString();
@@ -212,7 +226,8 @@ public class ModifyPubScreen extends AppCompatActivity {
         this.onBackPressed();
     }
 
-
+    /** metoda obłsugująca zdarzenie naciśnięcia klawisza wstecz
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();

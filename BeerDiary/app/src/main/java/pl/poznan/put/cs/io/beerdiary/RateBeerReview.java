@@ -23,7 +23,7 @@ public class RateBeerReview {
      * @param aroma                 ocena aromat piwa
      * @param appearance            ocena wyglądu piwa
      * @param taste                 ocena smaku piwa
-     * @param palate                TODO przetłumaczyć
+     * @param palate                ocena podniebienia (?)
      * @param overall               ogólna ocena piwa
      */
 
@@ -57,7 +57,7 @@ public class RateBeerReview {
      * @param aroma                 ocena aromat piwa
      * @param appearance            ocena wyglądu piwa
      * @param taste                 ocena smaku piwa
-     * @param palate                TODO przetłumaczyć
+     * @param palate                ocena podniebienia (?)
      * @param overall               ogólna ocena piwa
      */
 

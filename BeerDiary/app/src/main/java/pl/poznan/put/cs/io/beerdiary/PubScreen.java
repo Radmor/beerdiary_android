@@ -45,6 +45,9 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
     String pubsURL = "http://164.132.101.153:8000/api/pubs/";
     private List<Pub> pubs;
 
+    /** metoda obsługująca przycisk dodawania pubu
+     * @param v         widok
+     */
     public void addButtonOnClick(View v) {
         Intent intent = new Intent(PubScreen.this, ModifyPubScreen.class);
         intent.putExtra("Pub", new Pub(-1, "", "", "", Rating._3, 0f, "", 0f, ""));
@@ -52,6 +55,10 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    /** metoda obsługująca edycję pubu
+     * @param v         widok
+     * @param pubId     id pubu
+     */
     public void edit(View v, int pubId) {
         Intent intent = new Intent(PubScreen.this, ModifyPubScreen.class);
         intent.putExtra("Pub", pubs.get(pubId));
@@ -59,6 +66,9 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    /** metoda usuwająca puby według id grupy
+     * @param groupId           id grupy
+     */
     public void deleteByGroupId(int groupId) {
         Pub pubToDelete = pubs.get(groupId);
         new DeletePubAndRefreshTask().execute(pubToDelete);

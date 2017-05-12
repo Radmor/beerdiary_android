@@ -19,6 +19,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/** klasa ekranu modyfikowania danych gatunku
+ */
+
 public class ModifyStyleScreen extends AppCompatActivity {
 
     private String User_Agent = "beerdiary";
@@ -36,6 +39,9 @@ public class ModifyStyleScreen extends AppCompatActivity {
 
     JSONObject styleJSON;
 
+    /** metoda obsługująca stworzenie ekranu modyfikowania gatunku
+     * @param savedInstanceState     zachowany stan instancji
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +56,8 @@ public class ModifyStyleScreen extends AppCompatActivity {
         NameText.setText(myStyle.getName());
     }
 
+    /** klasa stanowiąca zadanie wysłania zmienionych danych gatunku na serwer
+     */
     private class SendStyleTask extends AsyncTask<Style, Void, Void> {
 //        @Override
 //        protected void onPreExecute() {
@@ -60,6 +68,9 @@ public class ModifyStyleScreen extends AppCompatActivity {
 //            listDataChild = new HashMap<String, List<String>>();
 //        }
 
+        /** metoda faktycznie wysyłająca dane gatunku na serwer (działa w tle)
+         * @param style           gatunek
+         */
         @Override
         protected Void doInBackground(Style... style) {
             // Create URL
@@ -151,6 +162,9 @@ public class ModifyStyleScreen extends AppCompatActivity {
 //        protected void onPostExecute(Void result) { }
     }
 
+    /** metoda obsługująca naciśnięcie przycisku zapisania gatunku
+     * @param v         widok
+     */
     public void saveButtonOnClick(View v) {
         Name           = NameText.getText().toString();
 
@@ -162,7 +176,8 @@ public class ModifyStyleScreen extends AppCompatActivity {
         this.onBackPressed();
     }
 
-
+    /** metoda obłsugująca zdarzenie naciśnięcia klawisza wstecz
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();

@@ -36,6 +36,9 @@ public class BreweryScreen extends AppCompatActivity implements AbstractScreen {
     String breweriesURL = "http://164.132.101.153:8000/api/breweries/";
     private List<Brewery> breweries;
 
+    /** metoda obsługująca zdarzenie kliknięcia przycisku dodawania browaru
+     * @param v            widok
+     */
     public void addButtonOnClick(View v) {
         Intent intent = new Intent(BreweryScreen.this, ModifyBreweryScreen.class);
         intent.putExtra("Brewery", new Brewery(-1, "", Rating._3, ""));
@@ -43,6 +46,10 @@ public class BreweryScreen extends AppCompatActivity implements AbstractScreen {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    /** metoda służąca do edycji browaru
+     * @param v             widok
+     * @param breweryId     id browaru
+     */
     public void edit(View v, int breweryId) {
         Intent intent = new Intent(BreweryScreen.this, ModifyBreweryScreen.class);
         intent.putExtra("Brewery", breweries.get(breweryId));
@@ -50,6 +57,9 @@ public class BreweryScreen extends AppCompatActivity implements AbstractScreen {
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    /** metoda usuwająca browary według id grupy
+     * @param groupId       id grupy
+     */
     public void deleteByGroupId(int groupId) {
         Brewery breweryToDelete = breweries.get(groupId);
         new DeleteBreweryAndRefreshTask().execute(breweryToDelete);
