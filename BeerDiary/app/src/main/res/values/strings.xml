@@ -14,6 +14,7 @@
     <string name="design">Design</string>
     <string name="design_desc">Opis designu</string>
     <string name="atmosphere">Atmosfera</string>
+    <string name="note">Opis</string>
     <string name="atmosphere_desc">Opis atmosfery</string>
     <string name="save">Zapisz</string>
 </resources>
