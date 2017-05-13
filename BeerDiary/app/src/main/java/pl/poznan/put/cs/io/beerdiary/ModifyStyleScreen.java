@@ -26,7 +26,7 @@ public class ModifyStyleScreen extends AppCompatActivity {
 
     private String User_Agent = "beerdiary";
     private JsonReader jsonReader = null;
-    String stylesURL = "http://164.132.101.153:8000/api/styles/";
+    String stylesURL = "http://164.132.101.153:8000/api/styles";
 
     boolean addingStyle = true;
 
@@ -79,7 +79,7 @@ public class ModifyStyleScreen extends AppCompatActivity {
             if (idToSend == -1)
                 targetURLnotFinal = stylesURL;
             else
-                targetURLnotFinal = stylesURL + Integer.toString(idToSend) + "/";
+                targetURLnotFinal = stylesURL  + "/" + Integer.toString(idToSend);
             final String targetURLString = targetURLnotFinal;
 
             URL targetURL = null;

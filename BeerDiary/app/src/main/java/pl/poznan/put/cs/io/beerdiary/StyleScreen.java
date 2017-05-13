@@ -33,7 +33,7 @@ public class StyleScreen extends AppCompatActivity implements AbstractScreen{
     HashMap<String, List<String>> listDataChild;
 
     android.content.Context context;
-    String stylesURL = "http://164.132.101.153:8000/api/styles/";
+    String stylesURL = "http://164.132.101.153:8000/api/styles";
     private List<Style> styles;
 
     /** metoda obsługująca przycisk dodawania gatunku
@@ -235,7 +235,7 @@ public class StyleScreen extends AppCompatActivity implements AbstractScreen{
         @Override
         protected Void doInBackground(Style... style) {// Create URL
             final int idToDelete = style[0].getId();
-            final String targetURLString = stylesURL + String.valueOf(idToDelete) + "/";
+            final String targetURLString = stylesURL + "/" + String.valueOf(idToDelete);
 
             URL targetURL = null;
             try {

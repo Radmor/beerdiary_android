@@ -27,7 +27,7 @@ public class ModifyBreweryScreen extends AppCompatActivity {
 
     private String User_Agent = "beerdiary";
     private JsonReader jsonReader = null;
-    String breweriesURL = "http://164.132.101.153:8000/api/breweries/";
+    String breweriesURL = "http://164.132.101.153:8000/api/breweries";
 
     boolean addingBrewery = true;
 
@@ -89,7 +89,7 @@ public class ModifyBreweryScreen extends AppCompatActivity {
             if (breweryId == -1)
                 targetURLnotFinal = breweriesURL;
             else
-                targetURLnotFinal = breweriesURL + Integer.toString(breweryId) + "/";
+                targetURLnotFinal = breweriesURL  + "/" + Integer.toString(breweryId);
             final String targetURLString = targetURLnotFinal;
 
             URL targetURL = null;

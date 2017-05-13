@@ -33,7 +33,7 @@ public class BreweryScreen extends AppCompatActivity implements AbstractScreen {
     HashMap<String, List<String>> listDataChild;
 
     android.content.Context context;
-    String breweriesURL = "http://164.132.101.153:8000/api/breweries/";
+    String breweriesURL = "http://164.132.101.153:8000/api/breweries";
     private List<Brewery> breweries;
 
     /** metoda obsługująca zdarzenie kliknięcia przycisku dodawania browaru
@@ -245,7 +245,7 @@ public class BreweryScreen extends AppCompatActivity implements AbstractScreen {
         @Override
         protected Void doInBackground(Brewery... brewery) {// Create URL
             final int idToDelete = brewery[0].getId();
-            final String targetURLString = breweriesURL + String.valueOf(idToDelete) + "/";
+            final String targetURLString = breweriesURL  + "/" + String.valueOf(idToDelete);
 
             URL targetURL = null;
             try {

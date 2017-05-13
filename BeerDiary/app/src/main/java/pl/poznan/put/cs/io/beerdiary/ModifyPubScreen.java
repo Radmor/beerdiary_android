@@ -28,7 +28,7 @@ public class ModifyPubScreen extends AppCompatActivity {
 
     private String User_Agent = "beerdiary";
     private JsonReader jsonReader = null;
-    String pubsURL = "http://164.132.101.153:8000/api/pubs/";
+    String pubsURL = "http://164.132.101.153:8000/api/pubs";
 
     // robie dzis tylko dodawanie; docelowo ten ekran powinien wiedziec, czy dodajemy, czy edytujemy, i dodatkowo pamietac indeks edytowanego pubu.
     boolean addingPub = true;
@@ -114,7 +114,7 @@ public class ModifyPubScreen extends AppCompatActivity {
             if (pubId == -1)
                 targetURLnotFinal = pubsURL;
             else
-                targetURLnotFinal = pubsURL + Integer.toString(pubId) + "/";
+                targetURLnotFinal = pubsURL + "/" + Integer.toString(pubId);
             final String targetURLString = targetURLnotFinal;
 
             URL targetURL = null;

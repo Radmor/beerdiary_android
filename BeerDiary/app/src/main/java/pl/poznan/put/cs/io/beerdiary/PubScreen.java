@@ -42,7 +42,7 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
     HashMap<String, List<String>> listDataChild;
 
     android.content.Context context;
-    String pubsURL = "http://164.132.101.153:8000/api/pubs/";
+    String pubsURL = "http://164.132.101.153:8000/api/pubs";
     private List<Pub> pubs;
 
     /** metoda obsługująca przycisk dodawania pubu
@@ -273,7 +273,7 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
         @Override
         protected Void doInBackground(Pub... pub) {// Create URL
             final int idToDelete = pub[0].getId();
-            final String targetURLString = pubsURL + String.valueOf(idToDelete) + "/";
+            final String targetURLString = pubsURL + "/" + String.valueOf(idToDelete);
 
             URL targetURL = null;
             try {
