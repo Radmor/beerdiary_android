@@ -31,7 +31,7 @@ public class Beer {
      * @param aromaDescription          opis aromatu
      * @param taste                     ocena smaku piwa
      * @param tasteDescription          opis smaku
-     * TODO jak przetłumaczyć 'palate'?
+     * @param palate                    ocena podniebienia (?)
      */
 
     public Beer(String name, float bitterness, float foam, Rating overall, String foamDescription, String bitternessDescription,
@@ -96,7 +96,7 @@ public class Beer {
      * @param aromaDescription          opis aromatu
      * @param taste                     ocena smaku piwa
      * @param tasteDescription          opis smaku
-     * TODO jak przetłumaczyć 'palate'?
+     * @param palate                    ocena podniebienia (?)
      */
 
     public void update(String name, float bitterness, float foam, Rating overall, String foamDescription, String bitternessDescription,

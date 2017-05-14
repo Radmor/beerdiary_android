@@ -1,19 +1,5 @@
 package pl.poznan.put.cs.io.beerdiary;
 
-import java.io.IOError;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ResourceBundle;
-
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -24,17 +10,22 @@ import android.util.JsonReader;
 import android.util.JsonToken;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.ExpandableListView.OnGroupCollapseListener;
-import android.widget.ExpandableListView.OnGroupExpandListener;
-import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
- * Klasa obslugujaca pobranie listy pubow z serwera oraz wyswietlenie ich.
+ * Klasa obslugujaca pobranie listy browarow z serwera oraz wyswietlenie ich.
  */
 
-public class PubScreen extends AppCompatActivity implements AbstractScreen {
+public class BreweryScreen extends AppCompatActivity implements AbstractScreen {
 
     ExpandableListAdapter listAdapter;
     ExpandableListView expListView;
@@ -42,101 +33,82 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
     HashMap<String, List<String>> listDataChild;
 
     android.content.Context context;
-    String pubsURL = "http://164.132.101.153:8000/api/pubs";
-    private List<Pub> pubs;
+    String breweriesURL = "http://164.132.101.153:8000/api/breweries";
+    private List<Brewery> breweries;
 
-    /** metoda obsługująca przycisk dodawania pubu
-     * @param v         widok
+    /** metoda obsługująca zdarzenie kliknięcia przycisku dodawania browaru
+     * @param v            widok
      */
     public void addButtonOnClick(View v) {
-        Intent intent = new Intent(PubScreen.this, ModifyPubScreen.class);
-        intent.putExtra("Pub", new Pub(-1, "", "", "", Rating._3, 0f, "", 0f, ""));
+        Intent intent = new Intent(BreweryScreen.this, ModifyBreweryScreen.class);
+        intent.putExtra("Brewery", new Brewery(-1, "", Rating._3, ""));
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    /** metoda obsługująca edycję pubu
-     * @param v         widok
-     * @param pubId     id pubu
+    /** metoda służąca do edycji browaru
+     * @param v             widok
+     * @param breweryId     id browaru
      */
-    public void edit(View v, int pubId) {
-        Intent intent = new Intent(PubScreen.this, ModifyPubScreen.class);
-        intent.putExtra("Pub", pubs.get(pubId));
+    public void edit(View v, int breweryId) {
+        Intent intent = new Intent(BreweryScreen.this, ModifyBreweryScreen.class);
+        intent.putExtra("Brewery", breweries.get(breweryId));
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
-    /** metoda usuwająca puby według id grupy
-     * @param groupId           id grupy
+    /** metoda usuwająca browary według id grupy
+     * @param groupId       id grupy
      */
     public void deleteByGroupId(int groupId) {
-        Pub pubToDelete = pubs.get(groupId);
-        new DeletePubAndRefreshTask().execute(pubToDelete);
+        Brewery breweryToDelete = breweries.get(groupId);
+        new DeleteBreweryAndRefreshTask().execute(breweryToDelete);
     }
 
     /**
-     * Metoda odczytujaca listę pubow w JSON i zwracajaca odpowiadajaca jej liste.
+     * Metoda odczytujaca listę browarow w JSON i zwracajaca odpowiadajaca jej liste.
      * @param reader    JsonReader z lista
-     * @return          Lista obiektow klasy Pub
+     * @return          Lista obiektow klasy Brewery
      * @throws IOException  Wyjatek klasy JsonReader
      */
-    private List<Pub> readPubArray(JsonReader reader) throws IOException {
-        List<Pub> pubs  = new ArrayList<Pub>();
+    private List<Brewery> readBreweryArray(JsonReader reader) throws IOException {
+        List<Brewery> breweries  = new ArrayList<Brewery>();
 
         reader.beginArray();
         while (reader.hasNext()) {
-            pubs.add(readPub(reader));
+            breweries.add(readBrewery(reader));
         }
         reader.endArray();
 
-        return pubs;
+        return breweries;
     }
 
     /**
-     * Metoda odczytujaca pojedynczy pub w JSON i zwracajaca odpowiadajacy mu obiekt.
-     * @param reader    JsonReader z obiektem pubu
-     * @return          Obiekt klasy Pub
+     * Metoda odczytujaca pojedynczy browar w JSON i zwracajaca odpowiadajacy mu obiekt.
+     * @param reader    JsonReader z obiektem browaru
+     * @return          Obiekt klasy Brewery
      * @throws IOException  Wyjatek klasy JsonReader
      */
-    private Pub readPub(JsonReader reader) throws IOException{
+    private Brewery readBrewery(JsonReader reader) throws IOException{
         int id = -1;
-        String pubName = "";
-        String street = "";
-        String city = "";
+        String breweryName = "";
         Rating overall = Rating._1;
-        float design = 0.0f;
-        String designDescription = "";
-        float atmosphere = 0.0f;
-        String atmosphereDescription = "";
+        String note = "";
 
         reader.beginObject();
         while (reader.hasNext()) {
             String name = reader.nextName();
             if (name.equals("id")) {
                 id = reader.nextInt();
+
             } else if (name.equals("name")) {
-                pubName = reader.nextString();
-
-            } else if (name.equals("street")) {
-                street = reader.nextString();
-
-            } else if (name.equals("city")) {
-                city = reader.nextString();
+                breweryName = reader.nextString();
 
             } else if (name.equals("overall")) {
                 overall = Rating.values()[reader.nextInt() - 1];
 
-            } else if (name.equals("design") && reader.peek() != JsonToken.NULL) {
-                design = (float) reader.nextDouble();
-
-            } else if (name.equals("design_description")) {
-                designDescription = reader.nextString();
-
-            } else if (name.equals("atmosphere") && reader.peek() != JsonToken.NULL) {
-                atmosphere = (float) reader.nextDouble();
-
-            } else if (name.equals("atmosphere_description")) {
-                atmosphereDescription = reader.nextString();
+            } else if (name.equals("note")) {
+                note = reader.nextString();
 
             } else {
                 reader.skipValue();
@@ -145,13 +117,13 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
         }
         reader.endObject();
 
-        return new Pub(id, pubName, street, city, overall, design, designDescription, atmosphere, atmosphereDescription);
+        return new Brewery(id, breweryName, overall, note);
     }
 
     /**
      * Podklasa odpowiadajaca za asynchroniczne pobranie danych pubow z serwera i wyswietlenie ich po pobraniu.
      */
-    private class GetPubsTask extends AsyncTask<Void, Void, Void> {
+    private class GetBreweriesTask extends AsyncTask<Void, Void, Void> {
         /**
          * Przeladowana metoda wywolywana przed asynchronicznym przetwarzaniem; przygotowuje obiekty do pobrania i wyswietlenia.
          */
@@ -165,7 +137,7 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
         }
 
         /**
-         * Przeladowana metoda faktycznie pobierajaca dane z serwera, a nastepnie przetwarzajaca JSONa do obiektow klasy Pub.
+         * Przeladowana metoda faktycznie pobierajaca dane z serwera, a nastepnie przetwarzajaca JSONa do obiektow klasy Brewery.
          * @param arg0  sztuczny argument, potrzebny do przeladowania odpowiedniej metody z nadklasy
          * @return      sztyczna wartosc null, jak wyzej
          */
@@ -173,7 +145,7 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
         protected Void doInBackground(Void... arg0) {// Create URL
             URL targetURL = null;
             try {
-                targetURL = new URL(pubsURL);
+                targetURL = new URL(breweriesURL);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -214,7 +186,7 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            AlertDialog alertDialog = new AlertDialog.Builder(PubScreen.this).create();
+                            AlertDialog alertDialog = new AlertDialog.Builder(BreweryScreen.this).create();
                             alertDialog.setTitle("Alert");
                             alertDialog.setMessage("Error code from server: " + ResponseCode);
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -243,16 +215,16 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
         @Override
         protected void onPostExecute(Void result) {
 
-            listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild, PubScreen.this);
+            listAdapter = new ExpandableListAdapter(context, listDataHeader, listDataChild, BreweryScreen.this);
 
             // setting list adapter
             expListView.setAdapter(listAdapter);
         }
     }
     /**
-     * Podklasa odpowiadajaca za asynchroniczne usuniecia danych jednego z pubow z serwera oraz odwiezenie widoku.
+     * Podklasa odpowiadajaca za asynchroniczne usuniecia danych jednego z browarow z serwera oraz odwiezenie widoku.
      */
-    private class DeletePubAndRefreshTask extends AsyncTask<Pub, Void, Void> {
+    private class DeleteBreweryAndRefreshTask extends AsyncTask<Brewery, Void, Void> {
         /**
          * Przeladowana metoda wywolywana przed asynchronicznym przetwarzaniem; przygotowuje obiekty do pobrania i wyswietlenia.
          */
@@ -267,13 +239,13 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
 
         /**
          * Przeladowana metoda faktycznie wysylajaca zadanie usuniecia do serwera
-         * @param pub   obiekt klasy Pub do usuniecia
+         * @param brewery   obiekt klasy Brewery do usuniecia
          * @return      sztuczna wartosc null, jak wyzej
          */
         @Override
-        protected Void doInBackground(Pub... pub) {// Create URL
-            final int idToDelete = pub[0].getId();
-            final String targetURLString = pubsURL + "/" + String.valueOf(idToDelete);
+        protected Void doInBackground(Brewery... brewery) {// Create URL
+            final int idToDelete = brewery[0].getId();
+            final String targetURLString = breweriesURL  + "/" + String.valueOf(idToDelete);
 
             URL targetURL = null;
             try {
@@ -309,7 +281,7 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            AlertDialog alertDialog = new AlertDialog.Builder(PubScreen.this).create();
+                            AlertDialog alertDialog = new AlertDialog.Builder(BreweryScreen.this).create();
                             alertDialog.setTitle("Alert");
                             alertDialog.setMessage("Error code from server: " + ResponseCode);
                             alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
@@ -337,40 +309,38 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
          */
         @Override
         protected void onPostExecute(Void result) {
-            new GetPubsTask().execute();
+            new GetBreweriesTask().execute();
         }
     }
 
     /**
-     * Przeladowana metoda odpowiadajaca za zaladowanie ekranu wyswietlania pubow
+     * Przeladowana metoda odpowiadajaca za zaladowanie ekranu wyswietlania browarow
      * @param savedInstanceState    stan instancji
      */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.pub_menu);
-        getSupportActionBar().setTitle("Puby");
+        setContentView(R.layout.brewery_menu);
+        getSupportActionBar().setTitle("Browary");
         context = this;
     }
 
     /**
-     * Metoda przetwarzajaca sciagniety JSON na liste obiektow klasy PUB, a nastepnie przygotowujaca je do wyswietlenia.
+     * Metoda przetwarzajaca sciagniety JSON na liste obiektow klasy BREWERY, a nastepnie przygotowujaca je do wyswietlenia.
      * @param reader
      * @throws IOException
      */
     private void prepareListData(JsonReader reader) throws IOException {
-        List<Pub> pubList = readPubArray(reader);
-        pubs = pubList;
+        List<Brewery> breweryList = readBreweryArray(reader);
+        breweries = breweryList;
 
-        for (int i = 0; i < pubList.size(); i++) {
-            listDataHeader.add(pubList.get(i).getName());
+        for (int i = 0; i < breweryList.size(); i++) {
+            listDataHeader.add(breweryList.get(i).getName());
             List<String> child = new ArrayList<String>();
 
-            child.add("Miasto:         " + pubList.get(i).getCity());
-            child.add("Ulica:          " + pubList.get(i).getStreet());
-            child.add("Ocena:          " + String.valueOf(pubList.get(i).getOverall().ordinal() + 1));
-            child.add("Wystrój:        " + pubList.get(i).getDesign());
-            child.add("Atmosfera:      " + pubList.get(i).getAtmosphere());
+            child.add("Nazwa:         " + breweryList.get(i).getName());
+            child.add("Ocena:          " + String.valueOf(breweryList.get(i).getOverall().ordinal() + 1));
+            child.add("Notatka:        " + breweryList.get(i).getNote());
 
             listDataChild.put(listDataHeader.get(i), child); // Header, Child data
         }
@@ -380,7 +350,7 @@ public class PubScreen extends AppCompatActivity implements AbstractScreen {
     public void onResume()
     {
         super.onResume();
-        new GetPubsTask().execute();
+        new GetBreweriesTask().execute();
     }
 
     /**

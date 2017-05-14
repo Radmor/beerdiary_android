@@ -21,6 +21,9 @@ public class MainActivity extends AppCompatActivity {
     private String User_Agent = "beerdiary";
     private JsonReader jsonReader = null;
 
+    /** metoda obsługująca stworzenie głównej aktywności
+     * @param savedInstanceState     zachowany stan instancji
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,15 +32,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void beerButtonOnClick(View v) {
-        findViewById(R.id.PubButton).setVisibility(View.INVISIBLE);
+
     }
 
-    public void addButtonOnClick(View v) {
-        findViewById(R.id.PubButton).setVisibility(View.VISIBLE);
+    /** metoda obsługująca zdarzenie naciśnięcia na przycisk wyświetlania browarów
+     * @param v          widok
+     */
+    public void breweryButtonOnClick(View v) {
+        Intent intent = new Intent(MainActivity.this, BreweryScreen.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
 
+    /** metoda obsługująca zdarzenie naciśnięcia na przycisk wyświetlania pubów
+     * @param v         widok
+     */
     public void pubButtonOnClick(View v) {
         Intent intent = new Intent(MainActivity.this, PubScreen.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.fadein, R.anim.fadeout);
+    }
+
+    /** metoda obsługująca zdarzenie naciśnięcia na przycisk wyświetlania stylu
+     * @param v         widok
+     */
+    public void styleButtonOnClick(View v) {
+        Intent intent = new Intent(MainActivity.this, StyleScreen.class);
         startActivity(intent);
         overridePendingTransition(R.anim.fadein, R.anim.fadeout);
     }
@@ -130,6 +150,8 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
+    /** metoda obłsugująca zdarzenie naciśnięcia klawisza "w tył"
+     */
     @Override
     public void onBackPressed() {
         super.onBackPressed();

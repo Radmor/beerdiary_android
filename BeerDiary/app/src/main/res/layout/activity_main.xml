@@ -65,12 +65,23 @@
                 android:textColor="@android:color/white" />
 
             <Button
-                android:id="@+id/EventButton"
+                android:id="@+id/BreweryButton"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="20dp"
                 android:background="@color/colorPrimary"
-                android:text="@string/events"
+                android:onClick="breweryButtonOnClick"
+                android:text="@string/breweries"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/StyleButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:background="@color/colorPrimary"
+                android:onClick="styleButtonOnClick"
+                android:text="@string/styles"
                 android:textColor="@android:color/white" />
 
             <TextView
